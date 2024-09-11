@@ -19,7 +19,8 @@ public class LocationData {
 
     private LocationData() {}
 
-    private LocationData(final World world, final double x, final double y, final double z, final float pitch, final float yaw) {
+    private LocationData(final World world, final double x, final double y, final double z,
+                         final float pitch, final float yaw) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -29,7 +30,8 @@ public class LocationData {
     }
 
     private LocationData(final Location location) {
-        this(location.getWorld(), location.getX(), location.getY(), location.getZ(), location.getPitch(), location.getYaw());
+        this(location.getWorld(), location.getX(), location.getY(), location.getZ(),
+                location.getPitch(), location.getYaw());
     }
 
     public World getWorld() {

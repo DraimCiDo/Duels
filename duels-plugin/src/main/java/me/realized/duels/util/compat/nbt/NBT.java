@@ -1,12 +1,14 @@
 package me.realized.duels.util.compat.nbt;
 
-import java.lang.reflect.Method;
 import me.realized.duels.util.reflect.ReflectionUtil;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 
+import java.lang.reflect.Method;
+
 /**
- * Used to store kit item identifiers in items for versions 1.8 - 1.13. For 1.14 and above, {@link PersistentDataContainer} is used instead.
+ * Used to store kit item identifiers in items for versions 1.8 - 1.13. For 1.14 and above,
+ * {@link PersistentDataContainer} is used instead.
  */
 public final class NBT {
 

@@ -4,14 +4,15 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.mojang.authlib.GameProfile;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.concurrent.TimeUnit;
 import me.realized.duels.util.reflect.ReflectionUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Caches the GameProfile stored in EntityHuman instance to prevent Mojang server lookup.
@@ -44,7 +45,8 @@ public final class Skulls {
         SET_PROFILE = ReflectionUtil.getDeclaredMethodUnsafe(CB_SKULL_META, "setProfile", GameProfile.class);
     }
 
-    private static GameProfile getProfile(final Player player) throws InvocationTargetException, IllegalAccessException {
+    private static GameProfile getProfile(final Player player) throws InvocationTargetException,
+            IllegalAccessException {
        return (GameProfile) GET_PROFILE.invoke(player);
     }
 

@@ -1,6 +1,5 @@
 package me.realized.duels.command.commands.duel.subcommands;
 
-import java.util.UUID;
 import me.realized.duels.DuelsPlugin;
 import me.realized.duels.command.BaseCommand;
 import me.realized.duels.gui.inventory.InventoryGui;
@@ -8,10 +7,13 @@ import me.realized.duels.util.UUIDUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 public class InventoryCommand extends BaseCommand {
 
     public InventoryCommand(final DuelsPlugin plugin) {
-        super(plugin, "_", "_ [uuid]", "Displays player's inventories after match.", 2, true);
+        super(plugin, "_", "_ [uuid]", "Displays player's inventories after match.",
+                2, true);
     }
 
     @Override

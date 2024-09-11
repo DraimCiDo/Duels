@@ -1,14 +1,6 @@
 package me.realized.duels.arena;
 
 import com.google.common.collect.Lists;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +25,8 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.*;
+
 public class ArenaImpl extends BaseButton implements Arena {
 
     @Getter
@@ -56,7 +50,8 @@ public class ArenaImpl extends BaseButton implements Arena {
         super(plugin, ItemBuilder
             .of(Items.EMPTY_MAP)
             .name(plugin.getLang().getMessage("GUI.arena-selector.buttons.arena.name", "name", name))
-            .lore(plugin.getLang().getMessage("GUI.arena-selector.buttons.arena.lore-unavailable").split("\n"))
+                .lore(plugin.getLang().getMessage("GUI.arena-selector.buttons.arena.lore-unavailable")
+                        .split("\n"))
             .build()
         );
         this.name = name;
@@ -68,7 +63,8 @@ public class ArenaImpl extends BaseButton implements Arena {
     }
 
     public void refreshGui(final boolean available) {
-        setLore(lang.getMessage("GUI.arena-selector.buttons.arena.lore-" + (available ? "available" : "unavailable")).split("\n"));
+        setLore(lang.getMessage("GUI.arena-selector.buttons.arena.lore-" +
+                (available ? "available" : "unavailable")).split("\n"));
         arenaManager.getGui().calculatePages();
     }
 
@@ -150,7 +146,8 @@ public class ArenaImpl extends BaseButton implements Arena {
         return !isDisabled() && !isUsed() && getPosition(1) != null && getPosition(2) != null;
     }
 
-    public MatchImpl startMatch(final KitImpl kit, final Map<UUID, List<ItemStack>> items, final int bet, final Queue source) {
+    public MatchImpl startMatch(final KitImpl kit, final Map<UUID, List<ItemStack>> items, final int bet,
+                                final Queue source) {
         this.match = new MatchImpl(this, kit, items, bet, source);
         refreshGui(false);
         return match;
@@ -220,7 +217,8 @@ public class ArenaImpl extends BaseButton implements Arena {
     }
 
     public Player getOpponent(final Player player) {
-        return isUsed() ? match.getAllPlayers().stream().filter(other -> !player.equals(other)).findFirst().orElse(null) : null;
+        return isUsed() ? match.getAllPlayers().stream().filter(other ->
+                !player.equals(other)).findFirst().orElse(null) : null;
     }
 
     public Set<Player> getPlayers() {
@@ -243,10 +241,12 @@ public class ArenaImpl extends BaseButton implements Arena {
         }
 
         final Settings settings = settingManager.getSafely(player);
-        final String kitName = settings.getKit() != null ? settings.getKit().getName() : lang.getMessage("GENERAL.none");
+        final String kitName = settings.getKit() != null ? settings.getKit().getName() :
+                lang.getMessage("GENERAL.none");
 
         if (!arenaManager.isSelectable(settings.getKit(), this)) {
-            lang.sendMessage(player, "ERROR.setting.arena-not-applicable", "kit", kitName, "arena", name);
+            lang.sendMessage(player, "ERROR.setting.arena-not-applicable",
+                    "kit", kitName, "arena", name);
             return;
         }
 

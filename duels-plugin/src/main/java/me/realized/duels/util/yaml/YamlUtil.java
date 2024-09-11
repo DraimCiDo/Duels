@@ -49,7 +49,8 @@ public final class YamlUtil {
     private static class YamlBukkitConstructor extends YamlConstructor {
 
         public YamlBukkitConstructor() {
-            this.yamlConstructors.put(new Tag(Tag.PREFIX + "org.bukkit.inventory.ItemStack"), yamlConstructors.get(Tag.MAP));
+            this.yamlConstructors.put(new Tag(Tag.PREFIX + "org.bukkit.inventory.ItemStack"),
+                    yamlConstructors.get(Tag.MAP));
         }
     }
 

@@ -9,7 +9,8 @@ import org.bukkit.entity.Player;
 public class LeaveCommand extends BaseCommand {
 
     public LeaveCommand(final DuelsPlugin plugin) {
-        super(plugin, "leave", null, null, Permissions.QUEUE, 1, true, "l");
+        super(plugin, "leave", null, null,
+                Permissions.QUEUE, 1, true, "l");
     }
 
     @Override

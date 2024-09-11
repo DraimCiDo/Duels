@@ -44,7 +44,8 @@ public class UserData implements User {
 
     private UserData() {}
 
-    public UserData(final File folder, final int defaultRating, final int matchesToDisplay, final Player player) {
+    public UserData(final File folder, final int defaultRating,
+                    final int matchesToDisplay, final Player player) {
         this.folder = folder;
         this.defaultRating = defaultRating;
         this.matchesToDisplay = matchesToDisplay;
@@ -123,7 +124,8 @@ public class UserData implements User {
     }
 
     private int getRatingUnsafe(final Kit kit) {
-        return this.rating != null ? this.rating.getOrDefault(kit == null ? "-" : kit.getName(), defaultRating) : defaultRating;
+        return this.rating != null ? this.rating.getOrDefault(kit == null ? "-" :
+                kit.getName(), defaultRating) : defaultRating;
     }
 
     public void setRating(final Kit kit, final int rating) {
@@ -165,7 +167,8 @@ public class UserData implements User {
             return;
         }
 
-        final List<MatchData> division = Lists.newArrayList(matches.subList(matches.size() - matchesToDisplay, matches.size()));
+        final List<MatchData> division = Lists.newArrayList(matches.subList(matches.size() -
+                matchesToDisplay, matches.size()));
         matches.clear();
         matches.addAll(division);
     }

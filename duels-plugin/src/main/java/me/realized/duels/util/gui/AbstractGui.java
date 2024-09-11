@@ -1,8 +1,5 @@
 package me.realized.duels.util.gui;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 import lombok.Getter;
 import me.realized.duels.util.inventory.Slots;
 import org.bukkit.entity.Player;
@@ -11,6 +8,10 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class AbstractGui<P extends JavaPlugin> {
 
@@ -48,7 +49,8 @@ public abstract class AbstractGui<P extends JavaPlugin> {
         inventory.setItem(slot, button.getDisplayed());
     }
 
-    public void set(final Inventory inventory, final int from, final int to, final int height, final Button<P> button) {
+    public void set(final Inventory inventory, final int from, final int to, final int height,
+                    final Button<P> button) {
         Slots.run(from, to, height, slot -> set(inventory, slot, button));
     }
 
@@ -73,7 +75,8 @@ public abstract class AbstractGui<P extends JavaPlugin> {
         }
 
         button.update(player);
-        cached.entrySet().stream().filter(entry -> entry.getValue().equals(button)).findFirst().ifPresent(entry -> inventory.setItem(entry.getKey(), button.getDisplayed()));
+        cached.entrySet().stream().filter(entry -> entry.getValue().equals(button)).findFirst().ifPresent(entry ->
+                inventory.setItem(entry.getKey(), button.getDisplayed()));
     }
 
     public void update(final Player player) {

@@ -1,7 +1,5 @@
 package me.realized.duels.command.commands.duel.subcommands;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import me.realized.duels.DuelsPlugin;
 import me.realized.duels.Permissions;
 import me.realized.duels.command.BaseCommand;
@@ -12,10 +10,14 @@ import net.md_5.bungee.api.chat.HoverEvent.Action;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 public class StatsCommand extends BaseCommand {
 
     public StatsCommand(final DuelsPlugin plugin) {
-        super(plugin, "stats", null, null, Permissions.STATS, 1, true);
+        super(plugin, "stats", null, null,
+                Permissions.STATS, 1, true);
     }
 
     @Override
@@ -45,9 +47,12 @@ public class StatsCommand extends BaseCommand {
 
         final String wins = String.valueOf(user.getWins());
         final String losses = String.valueOf(user.getLosses());
-        final String wlRatio = String.valueOf(user.getLosses() > 0 ? Math.round(((double) user.getWins() / (double) user.getLosses()) * 100.0) / 100.0 : user.getWins());
-        final String requests = String.valueOf(user.canRequest() ? lang.getMessage("GENERAL.enabled") : lang.getMessage("GENERAL.disabled"));
-        final Object[] args = {"name", user.getName(), "wins", wins, "losses", losses, "wl_ratio", wlRatio, "requests_enabled", requests};
+        final String wlRatio = String.valueOf(user.getLosses() > 0 ? Math.round(((double) user.getWins() /
+                (double) user.getLosses()) * 100.0) / 100.0 : user.getWins());
+        final String requests = String.valueOf(user.canRequest() ? lang.getMessage("GENERAL.enabled") :
+                lang.getMessage("GENERAL.disabled"));
+        final Object[] args = {"name", user.getName(), "wins", wins, "losses", losses, "wl_ratio", wlRatio,
+                "requests_enabled", requests};
         lang.sendMessage(sender, "COMMAND.duel.stats.displayed", args);
 
         if (config.isDisplayKitRatings() || config.isDisplayNoKitRating()) {
@@ -55,7 +60,8 @@ public class StatsCommand extends BaseCommand {
 
             if (config.isDisplayNoKitRating()) {
                 lang.sendMessage(sender, "COMMAND.duel.stats.rating.format",
-                    "type", config.getTopNoKitType(), "kit", config.getTopNoKitType(), "rating", user.getRating());
+                        "type", config.getTopNoKitType(), "kit", config.getTopNoKitType(),
+                        "rating", user.getRating());
             }
 
             if (config.isDisplayKitRatings()) {
@@ -74,12 +80,15 @@ public class StatsCommand extends BaseCommand {
             user.getMatches().forEach(match -> {
                 final String kit = match.getKit() != null ? match.getKit() : lang.getMessage("GENERAL.none");
                 final String duration = DateUtil.formatMilliseconds(match.getDuration());
-                final String timeSince = DateUtil.formatMilliseconds(calendar.getTimeInMillis() - match.getCreation());
+                final String timeSince = DateUtil.formatMilliseconds(calendar.getTimeInMillis() -
+                        match.getCreation());
                 TextBuilder
-                    .of(lang.getMessage("COMMAND.duel.stats.match.format", "winner", match.getWinner(), "loser", match.getLoser()))
+                        .of(lang.getMessage("COMMAND.duel.stats.match.format", "winner",
+                                match.getWinner(), "loser", match.getLoser()))
                     .setHoverEvent(Action.SHOW_TEXT,
                         lang.getMessage("COMMAND.duel.stats.match.hover-text",
-                            "kit", kit, "duration", duration, "time", timeSince, "health", match.getHealth()))
+                                "kit", kit, "duration", duration, "time", timeSince, "health",
+                                match.getHealth()))
                     .send(sender);
             });
             lang.sendMessage(sender, "COMMAND.duel.stats.match.footer", args);

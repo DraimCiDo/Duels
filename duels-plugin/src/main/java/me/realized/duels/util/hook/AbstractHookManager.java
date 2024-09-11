@@ -1,10 +1,12 @@
 package me.realized.duels.util.hook;
 
-import java.util.HashMap;
-import java.util.Map;
+import me.realized.duels.DuelsPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractHookManager<P extends JavaPlugin> {
 
@@ -24,17 +26,18 @@ public abstract class AbstractHookManager<P extends JavaPlugin> {
 
         try {
             if (hooks.putIfAbsent(clazz, clazz.getConstructor(plugin.getClass()).newInstance(plugin)) != null) {
-                plugin.getLogger().warning("Failed to hook into " + name + ": There was already a hook registered with same name");
+                plugin.getLogger().warning("Failed to hook into " + name +
+                        ": There was already a hook registered with same name");
                 return;
             }
 
-            plugin.getLogger().info("Successfully hooked into '" + name + "'!");
+            DuelsPlugin.sendMessage("&aSuccessfully hooked into '" + name + "'!");
         } catch (Throwable throwable) {
             if (throwable.getCause() != null) {
                 throwable = throwable.getCause();
             }
 
-            plugin.getLogger().warning("Failed to hook into " + name + ": " + throwable.getMessage());
+            DuelsPlugin.sendMessage("&b&lFailed to hook into " + name + ": " + throwable.getMessage());
         }
     }
 

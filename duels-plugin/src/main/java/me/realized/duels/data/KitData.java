@@ -50,7 +50,8 @@ public class KitData {
         ItemStack displayed;
 
         if (this.displayed == null || (displayed = this.displayed.toItemStack()) == null) {
-            displayed = ItemBuilder.of(Material.BARRIER).name("&cCould not load displayed item for " + name + "!").build();
+            displayed = ItemBuilder.of(Material.BARRIER).name("&cCould not load displayed item for "
+                    + name + "!").build();
         }
 
         final KitImpl kit = new KitImpl(plugin, name, displayed, usePermission, arenaSpecific, characteristics);

@@ -8,7 +8,8 @@ import org.bukkit.command.CommandSender;
 public class CreateCommand extends BaseCommand {
 
     public CreateCommand(final DuelsPlugin plugin) {
-        super(plugin, "create", "create [name]", "Creates an arena with given name.", 2, true);
+        super(plugin, "create", "create [name]", "Creates an arena with given name.",
+                2, true);
     }
 
     @Override

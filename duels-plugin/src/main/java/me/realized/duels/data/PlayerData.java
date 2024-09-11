@@ -43,7 +43,8 @@ public class PlayerData {
 
     public PlayerInfo toPlayerInfo() {
         final PlayerInfo info = new PlayerInfo(
-            effects.stream().map(PotionEffectData::toPotionEffect).filter(Objects::nonNull).collect(Collectors.toList()),
+                effects.stream().map(PotionEffectData::toPotionEffect).filter(Objects::nonNull)
+                        .collect(Collectors.toList()),
             health,
             hunger,
             location.toLocation()
@@ -64,7 +65,8 @@ public class PlayerData {
             info.getItems().put(entry.getKey(), data);
         }
 
-        info.getExtra().addAll(extra.stream().map(data -> data.toItemStack(false)).filter(Objects::nonNull).collect(Collectors.toList()));
+        info.getExtra().addAll(extra.stream().map(data -> data.toItemStack(false))
+                .filter(Objects::nonNull).collect(Collectors.toList()));
         return info;
     }
 }

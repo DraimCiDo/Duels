@@ -8,7 +8,8 @@ import org.bukkit.command.CommandSender;
 public class ResetCommand extends BaseCommand {
 
     public ResetCommand(final DuelsPlugin plugin) {
-        super(plugin, "reset", "reset [name]", "Resets player's stats.", 2, false);
+        super(plugin, "reset", "reset [name]",
+                "Resets player's stats.", 2, false);
     }
 
     @Override

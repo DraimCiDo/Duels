@@ -9,16 +9,12 @@ import com.fasterxml.jackson.core.PrettyPrinter;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.core.util.Separators;
-import com.fasterxml.jackson.databind.BeanDescription;
-import com.fasterxml.jackson.databind.DeserializationConfig;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.deser.BeanDeserializerModifier;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import java.lang.reflect.InvocationTargetException;
 import org.jetbrains.annotations.NotNull;
+
+import java.lang.reflect.InvocationTargetException;
 
 public final class JsonUtil {
 
@@ -46,7 +42,8 @@ public final class JsonUtil {
         return OBJECT_WRITER;
     }
 
-    public static <T> void registerDeserializer(final Class<T> type, final Class<? extends DefaultBasedDeserializer<T>> deserializerClass) {
+    public static <T> void registerDeserializer(final Class<T> type,
+                                                final Class<? extends DefaultBasedDeserializer<T>> deserializerClass) {
         final SimpleModule module = new SimpleModule();
         module.setDeserializerModifier(new BeanDeserializerModifier() {
 
@@ -55,7 +52,8 @@ public final class JsonUtil {
                 if (description.getBeanClass().equals(type)) {
                     try {
                         return deserializerClass.getConstructor(JsonDeserializer.class).newInstance(deserializer);
-                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+                    } catch (InstantiationException | IllegalAccessException |
+                             InvocationTargetException | NoSuchMethodException ex) {
                         ex.printStackTrace();
                         return deserializer;
                     }

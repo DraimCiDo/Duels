@@ -1,21 +1,23 @@
 package me.realized.duels.util.inventory;
 
 import com.google.common.collect.ObjectArrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public final class InventoryUtil {
 
     private static final String INVENTORY_IDENTIFIER = "INVENTORY";
     private static final String ARMOR_IDENTIFIER = "ARMOR";
 
-    public static void addToMap(final PlayerInventory inventory, final Map<String, Map<Integer, ItemStack>> items) {
+    public static void addToMap(final PlayerInventory inventory,
+                                final Map<String, Map<Integer, ItemStack>> items) {
         final Map<Integer, ItemStack> contents = new HashMap<>();
 
         for (int i = 0; i < inventory.getSize(); i++) {
@@ -45,7 +47,8 @@ public final class InventoryUtil {
         items.put(ARMOR_IDENTIFIER, armorContents);
     }
 
-    public static void fillFromMap(final PlayerInventory inventory, final Map<String, Map<Integer, ItemStack>> items) {
+    public static void fillFromMap(final PlayerInventory inventory,
+                                   Map<String, Map<Integer, ItemStack>> items) {
         final Map<Integer, ItemStack> inventoryItems = items.get(INVENTORY_IDENTIFIER);
 
         if (inventoryItems != null) {
@@ -66,7 +69,8 @@ public final class InventoryUtil {
     public static boolean hasItem(final Player player) {
         final PlayerInventory inventory = player.getInventory();
 
-        for (final ItemStack item : ObjectArrays.concat(inventory.getArmorContents(), inventory.getContents(), ItemStack.class)) {
+        for (final ItemStack item : ObjectArrays.concat(inventory.getArmorContents(),
+                inventory.getContents(), ItemStack.class)) {
             if (item != null && item.getType() != Material.AIR) {
                 return true;
             }
@@ -80,7 +84,8 @@ public final class InventoryUtil {
             return false;
         }
 
-        final Map<Integer, ItemStack> result = player.getInventory().addItem(items.stream().filter(Objects::nonNull).toArray(ItemStack[]::new));
+        final Map<Integer, ItemStack> result = player.getInventory().addItem(items.stream()
+                .filter(Objects::nonNull).toArray(ItemStack[]::new));
 
         if (!result.isEmpty()) {
             result.values().forEach(item -> player.getWorld().dropItemNaturally(player.getLocation(), item));

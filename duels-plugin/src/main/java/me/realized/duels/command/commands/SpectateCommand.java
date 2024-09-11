@@ -15,7 +15,8 @@ import org.bukkit.entity.Player;
 public class SpectateCommand extends BaseCommand {
 
     public SpectateCommand(final DuelsPlugin plugin) {
-        super(plugin, "spectate", Permissions.SPECTATE, true);
+        super(plugin,
+                "spectate", Permissions.SPECTATE, true);
     }
 
     @Override
@@ -26,7 +27,8 @@ public class SpectateCommand extends BaseCommand {
         // If player is already spectating, using /spectate will put them out of spectator mode.
         if (spectator != null) {
             spectateManager.stopSpectating(player);
-            lang.sendMessage(player, "COMMAND.spectate.stop-spectate", "name", spectator.getTargetName());
+            lang.sendMessage(player, "COMMAND.spectate.stop-spectate",
+                    "name", spectator.getTargetName());
             return;
         }
 
@@ -67,13 +69,15 @@ public class SpectateCommand extends BaseCommand {
             case SUCCESS:
                 final ArenaImpl arena = arenaManager.get(target);
 
-                // Meaningless checks to halt IDE warnings as target is guaranteed to be in a match if result is SUCCESS.
+                // Meaningless checks to halt IDE warnings
+                // as target is guaranteed to be in a match if result is SUCCESS.
                 if (arena == null || arena.getMatch() == null) {
                     return;
                 }
 
                 final MatchImpl match = arena.getMatch();
-                final String kit = match.getKit() != null ? match.getKit().getName() : lang.getMessage("GENERAL.none");
+                final String kit = match.getKit() != null ? match.getKit().getName() :
+                        lang.getMessage("GENERAL.none");
                 lang.sendMessage(player, "COMMAND.spectate.start-spectate",
                     "name", target.getName(),
                     "opponent", arena.getOpponent(target).getName(),

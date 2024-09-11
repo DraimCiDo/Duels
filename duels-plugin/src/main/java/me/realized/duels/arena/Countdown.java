@@ -25,7 +25,8 @@ class Countdown extends BukkitRunnable {
 
     private boolean finished;
 
-    Countdown(final DuelsPlugin plugin, final ArenaImpl arena, final String kit, final Map<UUID,  Pair<String, Integer>> info, final List<String> messages, final List<String> titles) {
+    Countdown(final DuelsPlugin plugin, final ArenaImpl arena, final String kit, final Map<UUID,
+            Pair<String, Integer>> info, final List<String> messages, final List<String> titles) {
         this.config = plugin.getConfiguration();
         this.arena = arena;
         this.kit = kit;

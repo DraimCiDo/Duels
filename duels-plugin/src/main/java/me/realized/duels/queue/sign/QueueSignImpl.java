@@ -1,6 +1,5 @@
 package me.realized.duels.queue.sign;
 
-import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +10,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+
+import java.util.Objects;
 
 public class QueueSignImpl implements QueueSign {
 
@@ -56,7 +57,8 @@ public class QueueSignImpl implements QueueSign {
     }
 
     private String replace(final String line, final int inQueue, final long inMatch) {
-        return StringUtil.color(line.replace("%in_queue%", String.valueOf(inQueue)).replace("%in_match%", String.valueOf(inMatch)));
+        return StringUtil.color(line.replace("%in_queue%", String.valueOf(inQueue))
+                .replace("%in_match%", String.valueOf(inMatch)));
     }
 
     public void update() {

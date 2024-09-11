@@ -1,12 +1,13 @@
 package me.realized.duels.util;
 
+import me.realized.duels.util.reflect.ReflectionUtil;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
-import me.realized.duels.util.reflect.ReflectionUtil;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
 
 public final class StringUtil {
 
@@ -78,7 +79,8 @@ public final class StringUtil {
     }
 
     // In some versions of spigot, commons-lang3 is not available
-    public static String join(final Object[] array, final String separator, final int startIndex, final int endIndex) {
+    public static String join(final Object[] array, final String separator, final int startIndex,
+                              final int endIndex) {
         if (COMMONS_LANG3) {
             return org.apache.commons.lang3.StringUtils.join(array, separator, startIndex, endIndex);
         } else {

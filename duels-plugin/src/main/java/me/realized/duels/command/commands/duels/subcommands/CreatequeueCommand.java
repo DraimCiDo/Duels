@@ -1,7 +1,5 @@
 package me.realized.duels.command.commands.duels.subcommands;
 
-import java.util.Arrays;
-import java.util.List;
 import me.realized.duels.DuelsPlugin;
 import me.realized.duels.command.BaseCommand;
 import me.realized.duels.kit.KitImpl;
@@ -10,10 +8,14 @@ import me.realized.duels.util.StringUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class CreatequeueCommand extends BaseCommand {
 
     public CreatequeueCommand(final DuelsPlugin plugin) {
-        super(plugin, "createqueue", "createqueue [bet] [-:kit]", "Creates a queue with given bet and kit.", 3, false, "createq");
+        super(plugin, "createqueue", "createqueue [bet] [-:kit]",
+                "Creates a queue with given bet and kit.", 3, false, "createq");
     }
 
     @Override
@@ -22,7 +24,8 @@ public class CreatequeueCommand extends BaseCommand {
         KitImpl kit = null;
 
         if (!args[2].equals("-")) {
-            String name = StringUtil.join(args, " ", 2, args.length).replace("-", " ");
+            String name = StringUtil.join(args, " ", 2, args.length)
+                    .replace("-", " ");
             kit = kitManager.get(name);
 
             if (kit == null) {
@@ -42,7 +45,8 @@ public class CreatequeueCommand extends BaseCommand {
     }
 
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
+    public List<String> onTabComplete(final CommandSender sender, final Command command,
+                                      final String alias, final String[] args) {
         if (args.length == 2) {
             return Arrays.asList("0", "10", "50", "100", "500", "1000");
         }

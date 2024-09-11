@@ -13,7 +13,8 @@ import org.bukkit.plugin.PluginDescriptionFile;
 public class VersionCommand extends BaseCommand {
 
     public VersionCommand(final DuelsPlugin plugin) {
-        super(plugin, "version", null, null, Permissions.DUEL, 1, true, "v");
+        super(plugin, "version", null, null, Permissions.DUEL,
+                1, true, "v");
     }
 
     @Override

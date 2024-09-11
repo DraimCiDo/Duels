@@ -1,12 +1,6 @@
 package me.realized.duels.config;
 
 import com.google.common.collect.Sets;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Pattern;
 import me.realized.duels.DuelsPlugin;
 import me.realized.duels.util.Log;
 import me.realized.duels.util.Reloadable;
@@ -16,6 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class Lang extends AbstractConfiguration<DuelsPlugin> implements Reloadable {
 
@@ -40,7 +37,8 @@ public class Lang extends AbstractConfiguration<DuelsPlugin> implements Reloadab
                 continue;
             }
 
-            // Fixes a weird occurrence with FileConfiguration#getKeys that an extra separator char is prepended when called after FileConfiguration#set
+            // Fixes a weird occurrence with FileConfiguration#getKeys
+            // that an extra separator char is prepended when called after FileConfiguration#set
             if (key.startsWith(".")) {
                 key = key.substring(1);
             }

@@ -1,8 +1,6 @@
 package me.realized.duels.util.gui;
 
 import com.google.common.collect.Lists;
-import java.util.Collection;
-import java.util.function.Consumer;
 import lombok.Getter;
 import lombok.Setter;
 import me.realized.duels.util.compat.Inventories;
@@ -15,6 +13,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Collection;
+import java.util.function.Consumer;
 
 public class MultiPageGui<P extends JavaPlugin> extends AbstractGui<P> {
 
@@ -36,7 +37,8 @@ public class MultiPageGui<P extends JavaPlugin> extends AbstractGui<P> {
     @Setter
     private ItemStack emptyIndicator;
 
-    public MultiPageGui(final P plugin, final String title, final int rows, final Collection<? extends Button<P>> buttons) {
+    public MultiPageGui(final P plugin, final String title, final int rows,
+                        final Collection<? extends Button<P>> buttons) {
         super(plugin);
         if (title == null || title.isEmpty()) {
             throw new IllegalArgumentException("title cannot be null or empty");

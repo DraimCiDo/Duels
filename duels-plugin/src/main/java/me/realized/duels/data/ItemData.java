@@ -4,11 +4,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import me.realized.duels.util.EnumUtil;
 import me.realized.duels.util.collection.StreamUtil;
 import me.realized.duels.util.compat.CompatUtil;
@@ -26,6 +21,12 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public class ItemData {
 
     public static ItemData fromItemStack(final ItemStack item) {
@@ -41,7 +42,8 @@ public class ItemData {
             final Object itemFlags = metaAsMap.get("ItemFlags");
 
             if (itemFlags instanceof Iterable) {
-                metaAsMap.put("ItemFlags", StreamUtil.asStream((Iterable<?>) itemFlags).map(Object::toString).collect(Collectors.toSet()));
+                metaAsMap.put("ItemFlags", StreamUtil.asStream((Iterable<?>) itemFlags)
+                        .map(Object::toString).collect(Collectors.toSet()));
             }
         }
     }
@@ -124,7 +126,8 @@ public class ItemData {
                 }
 
                 if (node.has("lore")) {
-                    builder.lore(StreamUtil.asStream(node.get("lore")).map(JsonNode::textValue).collect(Collectors.toList()));
+                    builder.lore(StreamUtil.asStream(node.get("lore")).map(JsonNode::textValue)
+                            .collect(Collectors.toList()));
                 }
 
                 if (node.has("enchantments")) {

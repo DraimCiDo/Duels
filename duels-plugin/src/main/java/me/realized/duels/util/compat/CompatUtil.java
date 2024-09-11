@@ -12,11 +12,16 @@ public final class CompatUtil {
     private static final boolean ATTRIBUTES, ITEM_FLAGS, SEND_TITLE, HIDE_PLAYER, SET_COLLIDABLE, GET_PLAYER;
 
     static {
-        ATTRIBUTES = ReflectionUtil.getMethodUnsafe(ItemMeta.class, "getAttributeModifiers") != null;
-        ITEM_FLAGS = ReflectionUtil.getClassUnsafe("org.bukkit.inventory.ItemFlag") != null;
-        SEND_TITLE = ReflectionUtil.getMethodUnsafe(Player.class, "sendTitle", String.class, String.class, Integer.TYPE, Integer.TYPE, Integer.TYPE) != null;
-        HIDE_PLAYER = ReflectionUtil.getMethodUnsafe(Player.class, "hidePlayer", Plugin.class, Player.class) != null;
-        SET_COLLIDABLE = ReflectionUtil.getMethodUnsafe(LivingEntity.class, "setCollidable", Boolean.TYPE) != null;
+        ATTRIBUTES = ReflectionUtil.getMethodUnsafe(ItemMeta.class, "getAttributeModifiers")
+                != null;
+        ITEM_FLAGS = ReflectionUtil.getClassUnsafe("org.bukkit.inventory.ItemFlag")
+                != null;
+        SEND_TITLE = ReflectionUtil.getMethodUnsafe(Player.class, "sendTitle", String.class,
+                String.class, Integer.TYPE, Integer.TYPE, Integer.TYPE) != null;
+        HIDE_PLAYER = ReflectionUtil.getMethodUnsafe(Player.class, "hidePlayer", Plugin.class,
+                Player.class) != null;
+        SET_COLLIDABLE = ReflectionUtil.getMethodUnsafe(LivingEntity.class, "setCollidable",
+                Boolean.TYPE) != null;
         GET_PLAYER = ReflectionUtil.getMethodUnsafe(BlockCanBuildEvent.class, "getPlayer") != null;
     }
 

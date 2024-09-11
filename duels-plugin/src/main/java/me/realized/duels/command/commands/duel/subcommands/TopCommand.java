@@ -1,6 +1,5 @@
 package me.realized.duels.command.commands.duel.subcommands;
 
-import java.util.List;
 import me.realized.duels.DuelsPlugin;
 import me.realized.duels.Permissions;
 import me.realized.duels.api.user.UserManager.TopData;
@@ -10,10 +9,13 @@ import me.realized.duels.kit.KitImpl;
 import me.realized.duels.util.StringUtil;
 import org.bukkit.command.CommandSender;
 
+import java.util.List;
+
 public class TopCommand extends BaseCommand {
 
     public TopCommand(final DuelsPlugin plugin) {
-        super(plugin, "top", "top [-:kit:wins:losses]", "Displays top wins, losses, or rating for kit.", Permissions.TOP, 2, true);
+        super(plugin, "top", "top [-:kit:wins:losses]",
+                "Displays top wins, losses, or rating for kit.", Permissions.TOP, 2, true);
     }
 
     @Override
@@ -50,13 +52,15 @@ public class TopCommand extends BaseCommand {
             return;
         }
 
-        lang.sendMessage(sender, "COMMAND.duel.top.next-update", "remaining", userManager.getNextUpdate(topEntry.getCreation()));
+        lang.sendMessage(sender, "COMMAND.duel.top.next-update", "remaining",
+                userManager.getNextUpdate(topEntry.getCreation()));
         lang.sendMessage(sender, "COMMAND.duel.top.header", "type", topEntry.getType());
 
         for (int i = 0; i < top.size(); i++) {
             final TopData data = top.get(i);
             lang.sendMessage(sender, "COMMAND.duel.top.display-format",
-                "rank", i + 1, "name", data.getName(), "score", data.getValue(), "identifier", topEntry.getIdentifier());
+                    "rank", i + 1, "name", data.getName(), "score", data.getValue(),
+                    "identifier", topEntry.getIdentifier());
         }
 
         lang.sendMessage(sender, "COMMAND.duel.top.footer", "type", topEntry.getType());

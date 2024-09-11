@@ -38,7 +38,7 @@ public class QueueSignManagerImpl implements Loadable, QueueSignManager, Listene
 
     private static final String FILE_NAME = "signs.json";
 
-    private static final String SIGNS_LOADED = "Loaded %s queue sign(s).";
+    private static final String SIGNS_LOADED = "&aLoaded %s queue sign(s).";
 
     private final DuelsPlugin plugin;
     private final Lang lang;
@@ -62,7 +62,9 @@ public class QueueSignManagerImpl implements Loadable, QueueSignManager, Listene
     public void handleLoad() throws IOException {
         if (FileUtil.checkNonEmpty(file, true)) {
             try (final Reader reader = new InputStreamReader(Files.newInputStream(file.toPath()), Charsets.UTF_8)) {
-                final List<QueueSignData> data = JsonUtil.getObjectMapper().readValue(reader, new TypeReference<List<QueueSignData>>() {});
+                final List<QueueSignData> data = JsonUtil.getObjectMapper()
+                        .readValue(reader, new TypeReference<List<QueueSignData>>() {
+                        });
 
                 if (data != null) {
                     data.forEach(queueSignData -> {
@@ -76,7 +78,7 @@ public class QueueSignManagerImpl implements Loadable, QueueSignManager, Listene
             }
         }
 
-        Log.info(this, String.format(SIGNS_LOADED, signs.size()));
+        DuelsPlugin.sendMessage(String.format(SIGNS_LOADED, signs.size()));
 
         this.updateTask = plugin.doSyncRepeat(() -> signs.entrySet().removeIf(entry -> {
             entry.getValue().update();
@@ -126,8 +128,10 @@ public class QueueSignManagerImpl implements Loadable, QueueSignManager, Listene
         }
 
         final QueueSignImpl created;
-        final String kitName = queue.getKit() != null ? queue.getKit().getName() : lang.getMessage("GENERAL.none");
-        signs.put(location, created = new QueueSignImpl(location, lang.getMessage("SIGN.format", "kit", kitName, "bet_amount", queue.getBet()), queue));
+        final String kitName = queue.getKit() != null ? queue.getKit().getName() :
+                lang.getMessage("GENERAL.none");
+        signs.put(location, created = new QueueSignImpl(location,
+                lang.getMessage("SIGN.format", "kit", kitName, "bet_amount", queue.getBet()), queue));
         signs.values().stream().filter(sign -> sign.equals(created)).forEach(QueueSignImpl::update);
         saveQueueSigns();
 

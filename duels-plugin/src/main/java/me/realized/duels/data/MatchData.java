@@ -20,7 +20,8 @@ public class MatchData implements MatchInfo {
 
     private MatchData() {}
 
-    public MatchData(final String winner, final String loser, final String kit, final long time, final long duration, final double health) {
+    public MatchData(final String winner, final String loser, final String kit, final long time,
+                     final long duration, final double health) {
         this.winner = winner;
         this.loser = loser;
         this.kit = kit;

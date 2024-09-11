@@ -3,20 +3,6 @@ package me.realized.duels.kit;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import lombok.Getter;
 import me.realized.duels.DuelsPlugin;
 import me.realized.duels.api.event.kit.KitCreateEvent;
@@ -41,12 +27,15 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.*;
+import java.util.*;
+
 public class KitManagerImpl implements Loadable, KitManager {
 
     private static final String FILE_NAME = "kits.json";
 
-    private static final String ERROR_NOT_ALPHANUMERIC = "Could not load kit %s: Name is not alphanumeric.";
-    private static final String KITS_LOADED = "Loaded %s kit(s).";
+    private static final String ERROR_NOT_ALPHANUMERIC = "&c&lCould not load kit %s: Name is not alphanumeric.";
+    private static final String KITS_LOADED = "&aLoaded %s kit(s).";
 
     private final DuelsPlugin plugin;
     private final Config config;
@@ -67,21 +56,27 @@ public class KitManagerImpl implements Loadable, KitManager {
 
     @Override
     public void handleLoad() throws IOException {
-        gui = new MultiPageGui<>(plugin, lang.getMessage("GUI.kit-selector.title"), config.getKitSelectorRows(), kits.values());
+        gui = new MultiPageGui<>(plugin, lang.getMessage("GUI.kit-selector.title"),
+                config.getKitSelectorRows(), kits.values());
         gui.setSpaceFiller(Items.from(config.getKitSelectorFillerType(), config.getKitSelectorFillerData()));
-        gui.setPrevButton(ItemBuilder.of(Material.PAPER).name(lang.getMessage("GUI.kit-selector.buttons.previous-page.name")).build());
-        gui.setNextButton(ItemBuilder.of(Material.PAPER).name(lang.getMessage("GUI.kit-selector.buttons.next-page.name")).build());
-        gui.setEmptyIndicator(ItemBuilder.of(Material.PAPER).name(lang.getMessage("GUI.kit-selector.buttons.empty.name")).build());
+        gui.setPrevButton(ItemBuilder.of(Material.PAPER).name(
+                lang.getMessage("GUI.kit-selector.buttons.previous-page.name")).build());
+        gui.setNextButton(ItemBuilder.of(Material.PAPER).name(
+                lang.getMessage("GUI.kit-selector.buttons.next-page.name")).build());
+        gui.setEmptyIndicator(ItemBuilder.of(Material.PAPER).name(
+                lang.getMessage("GUI.kit-selector.buttons.empty.name")).build());
         plugin.getGuiListener().addGui(gui);
 
         if (FileUtil.checkNonEmpty(file, true)) {
             try (final Reader reader = new InputStreamReader(new FileInputStream(file), Charsets.UTF_8)) {
-                final Map<String, KitData> data = JsonUtil.getObjectMapper().readValue(reader, new TypeReference<LinkedHashMap<String, KitData>>() {});
+                final Map<String, KitData> data = JsonUtil.getObjectMapper().readValue(reader,
+                        new TypeReference<LinkedHashMap<String, KitData>>() {
+                        });
 
                 if (data != null) {
                     for (final Map.Entry<String, KitData> entry : data.entrySet()) {
                         if (!StringUtil.isAlphanumeric(entry.getKey())) {
-                            Log.warn(this, String.format(ERROR_NOT_ALPHANUMERIC, entry.getKey()));
+                            DuelsPlugin.sendMessage(String.format(ERROR_NOT_ALPHANUMERIC, entry.getKey()));
                             continue;
                         }
 
@@ -91,7 +86,7 @@ public class KitManagerImpl implements Loadable, KitManager {
             }
         }
 
-        Log.info(this, String.format(KITS_LOADED, kits.size()));
+        DuelsPlugin.sendMessage(String.format(KITS_LOADED, kits.size()));
         gui.calculatePages();
     }
 

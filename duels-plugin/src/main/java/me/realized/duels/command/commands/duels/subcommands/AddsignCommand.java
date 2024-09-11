@@ -1,7 +1,5 @@
 package me.realized.duels.command.commands.duels.subcommands;
 
-import java.util.Arrays;
-import java.util.List;
 import me.realized.duels.DuelsPlugin;
 import me.realized.duels.command.BaseCommand;
 import me.realized.duels.kit.KitImpl;
@@ -15,10 +13,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class AddsignCommand extends BaseCommand {
 
     public AddsignCommand(final DuelsPlugin plugin) {
-        super(plugin, "addsign", "addsign [bet] [kit:-]", "Creates a queue sign with given bet and kit.", 3, true);
+        super(plugin, "addsign", "addsign [bet] [kit:-]",
+                "Creates a queue sign with given bet and kit.", 3, true);
     }
 
     @Override
@@ -35,7 +37,8 @@ public class AddsignCommand extends BaseCommand {
         KitImpl kit = null;
 
         if (!args[2].equals("-")) {
-            String name = StringUtil.join(args, " ", 2, args.length).replace("-", " ");
+            String name = StringUtil.join(args, " ", 2, args.length)
+                    .replace("-", " ");
             kit = kitManager.get(name);
 
             if (kit == null) {
@@ -58,11 +61,13 @@ public class AddsignCommand extends BaseCommand {
         }
 
         final Location location = sign.getLocation();
-        lang.sendMessage(sender, "COMMAND.duels.add-sign", "location", StringUtil.parse(location), "kit", kitName, "bet_amount", bet);
+        lang.sendMessage(sender, "COMMAND.duels.add-sign", "location", StringUtil.parse(location),
+                "kit", kitName, "bet_amount", bet);
     }
 
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
+    public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias,
+                                      final String[] args) {
         if (args.length == 2) {
             return Arrays.asList("0", "10", "50", "100", "500", "1000");
         }

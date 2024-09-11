@@ -1,12 +1,6 @@
 package me.realized.duels.util.command;
 
 import com.google.common.collect.Lists;
-import java.text.MessageFormat;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.Getter;
 import me.realized.duels.api.command.SubCommand;
 import me.realized.duels.util.StringUtil;
@@ -16,6 +10,13 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.text.MessageFormat;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public abstract class AbstractCommand<P extends JavaPlugin> implements TabCompleter {
 
@@ -38,7 +39,8 @@ public abstract class AbstractCommand<P extends JavaPlugin> implements TabComple
 
     private Map<String, AbstractCommand<P>> children;
 
-    protected AbstractCommand(final P plugin, final String name, final String usage, final String description, final String permission, final int length,
+    protected AbstractCommand(final P plugin, final String name, final String usage,
+                              final String description, final String permission, final int length,
         final boolean playerOnly, final String... aliases) {
         this.plugin = plugin;
         this.name = name;
@@ -55,7 +57,8 @@ public abstract class AbstractCommand<P extends JavaPlugin> implements TabComple
     }
 
     protected AbstractCommand(final P plugin, final SubCommand sub) {
-        this(plugin, sub.getName(), sub.getUsage(), sub.getDescription(), sub.getPermission(), sub.getLength(), sub.isPlayerOnly(), sub.getAliases());
+        this(plugin, sub.getName(), sub.getUsage(), sub.getDescription(),
+                sub.getPermission(), sub.getLength(), sub.isPlayerOnly(), sub.getAliases());
     }
 
     @SafeVarargs
@@ -132,7 +135,8 @@ public abstract class AbstractCommand<P extends JavaPlugin> implements TabComple
                 }
 
                 if (args.length < child.length) {
-                    handleMessage(sender, MessageType.SUB_COMMAND_USAGE, label, child.getUsage(), child.getDescription());
+                    handleMessage(sender, MessageType.SUB_COMMAND_USAGE, label,
+                            child.getUsage(), child.getDescription());
                     return true;
                 }
 
@@ -161,7 +165,8 @@ public abstract class AbstractCommand<P extends JavaPlugin> implements TabComple
     }
 
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
+    public List<String> onTabComplete(final CommandSender sender, final Command command,
+                                      final String alias, final String[] args) {
         if (args.length == 0) {
             return null;
         }

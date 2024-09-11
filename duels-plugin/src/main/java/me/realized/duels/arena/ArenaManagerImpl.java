@@ -2,21 +2,6 @@ package me.realized.duels.arena;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.base.Charsets;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 import lombok.Getter;
 import me.realized.duels.DuelsPlugin;
 import me.realized.duels.api.arena.Arena;
@@ -51,12 +36,17 @@ import org.bukkit.projectiles.ProjectileSource;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.*;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+
 public class ArenaManagerImpl implements Loadable, ArenaManager {
 
     private static final String FILE_NAME = "arenas.json";
 
-    private static final String ERROR_NOT_ALPHANUMERIC = "Could not load arena %s: Name is not alphanumeric.";
-    private static final String ARENAS_LOADED = "Loaded %s arena(s).";
+    private static final String ERROR_NOT_ALPHANUMERIC = "&c&lCould not load arena %s: Name is not alphanumeric.";
+    private static final String ARENAS_LOADED = "&aLoaded %s arena(s).";
 
     private final DuelsPlugin plugin;
     private final Config config;
@@ -79,21 +69,27 @@ public class ArenaManagerImpl implements Loadable, ArenaManager {
 
     @Override
     public void handleLoad() throws IOException {
-        gui = new MultiPageGui<>(plugin, lang.getMessage("GUI.arena-selector.title"), config.getArenaSelectorRows(), arenas);
+        gui = new MultiPageGui<>(plugin, lang.getMessage("GUI.arena-selector.title"),
+                config.getArenaSelectorRows(), arenas);
         gui.setSpaceFiller(Items.from(config.getArenaSelectorFillerType(), config.getArenaSelectorFillerData()));
-        gui.setPrevButton(ItemBuilder.of(Material.PAPER).name(lang.getMessage("GUI.kit-selector.buttons.previous-page.name")).build());
-        gui.setNextButton(ItemBuilder.of(Material.PAPER).name(lang.getMessage("GUI.kit-selector.buttons.next-page.name")).build());
-        gui.setEmptyIndicator(ItemBuilder.of(Material.PAPER).name(lang.getMessage("GUI.kit-selector.buttons.empty.name")).build());
+        gui.setPrevButton(ItemBuilder.of(Material.PAPER).name(
+                lang.getMessage("GUI.kit-selector.buttons.previous-page.name")).build());
+        gui.setNextButton(ItemBuilder.of(Material.PAPER).name(
+                lang.getMessage("GUI.kit-selector.buttons.next-page.name")).build());
+        gui.setEmptyIndicator(ItemBuilder.of(Material.PAPER).name(
+                lang.getMessage("GUI.kit-selector.buttons.empty.name")).build());
         plugin.getGuiListener().addGui(gui);
 
         if (FileUtil.checkNonEmpty(file, true)) {
             try (final Reader reader = new InputStreamReader(new FileInputStream(file), Charsets.UTF_8)) {
-                final List<ArenaData> data = JsonUtil.getObjectMapper().readValue(reader, new TypeReference<List<ArenaData>>() {});
+                final List<ArenaData> data = JsonUtil.getObjectMapper().readValue(reader,
+                        new TypeReference<List<ArenaData>>() {
+                        });
 
                 if (data != null) {
                     for (final ArenaData arenaData : data) {
                         if (!StringUtil.isAlphanumeric(arenaData.getName())) {
-                            Log.warn(this, String.format(ERROR_NOT_ALPHANUMERIC, arenaData.getName()));
+                            DuelsPlugin.sendMessage(String.format(ERROR_NOT_ALPHANUMERIC, arenaData.getName()));
                             continue;
                         }
 
@@ -103,7 +99,7 @@ public class ArenaManagerImpl implements Loadable, ArenaManager {
             }
         }
 
-        Log.info(this, String.format(ARENAS_LOADED, arenas.size()));
+        DuelsPlugin.sendMessage(String.format(ARENAS_LOADED, arenas.size()));
         gui.calculatePages();
     }
 
@@ -195,7 +191,8 @@ public class ArenaManagerImpl implements Loadable, ArenaManager {
     }
 
     public long getPlayersInMatch(final Queue queue) {
-        return arenas.stream().filter(arena -> arena.isUsed() && arena.getMatch().isFromQueue() && arena.getMatch().getSource().equals(queue)).count() * 2;
+        return arenas.stream().filter(arena -> arena.isUsed() && arena.getMatch().isFromQueue() &&
+                arena.getMatch().getSource().equals(queue)).count() * 2;
     }
 
     public boolean isSelectable(@Nullable final KitImpl kit, @NotNull final ArenaImpl arena) {
@@ -215,7 +212,8 @@ public class ArenaManagerImpl implements Loadable, ArenaManager {
     }
 
     public ArenaImpl randomArena(final KitImpl kit) {
-        final List<ArenaImpl> available = arenas.stream().filter(arena -> isSelectable(kit, arena)).collect(Collectors.toList());
+        final List<ArenaImpl> available = arenas.stream().filter(arena ->
+                isSelectable(kit, arena)).collect(Collectors.toList());
         return !available.isEmpty() ? available.get(ThreadLocalRandom.current().nextInt(available.size())) : null;
     }
 
@@ -290,7 +288,8 @@ public class ArenaManagerImpl implements Loadable, ArenaManager {
             final Location from = event.getFrom();
             final Location to = event.getTo();
 
-            if (from.getBlockX() == to.getBlockX() && from.getBlockY() == to.getBlockY() && from.getBlockZ() == to.getBlockZ()) {
+            if (from.getBlockX() == to.getBlockX() && from.getBlockY() == to.getBlockY() && from.getBlockZ() ==
+                    to.getBlockZ()) {
                 return;
             }
 

@@ -16,7 +16,8 @@ import org.bukkit.entity.Player;
 public class DeletesignCommand extends BaseCommand {
 
     public DeletesignCommand(final DuelsPlugin plugin) {
-        super(plugin, "deletesign", null, null, 1, true, "delsign");
+        super(plugin, "deletesign",
+                null, null, 1, true, "delsign");
     }
 
     @Override
@@ -43,6 +44,7 @@ public class DeletesignCommand extends BaseCommand {
         final Queue queue = queueSign.getQueue();
         final Kit kit = queue.getKit();
         final String kitName = kit != null ? kit.getName() : lang.getMessage("GENERAL.none");
-        lang.sendMessage(sender, "COMMAND.duels.del-sign", "location", StringUtil.parse(location), "kit", kitName, "bet_amount", queue.getBet());
+        lang.sendMessage(sender, "COMMAND.duels.del-sign", "location",
+                StringUtil.parse(location), "kit", kitName, "bet_amount", queue.getBet());
     }
 }

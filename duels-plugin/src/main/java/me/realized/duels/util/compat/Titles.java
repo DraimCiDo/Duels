@@ -1,11 +1,12 @@
 package me.realized.duels.util.compat;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import me.realized.duels.util.StringUtil;
 import me.realized.duels.util.reflect.ReflectionUtil;
 import org.bukkit.entity.Player;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 
 public final class Titles {
@@ -40,22 +41,27 @@ public final class Titles {
                 TITLE_ACTIONS = ReflectionUtil.getNMSClass("EnumTitleAction", false);
             }
 
-            TITLE_PACKET_FULL_CONSTRUCTOR = ReflectionUtil.getConstructor(TITLE_PACKET, TITLE_ACTIONS, CHAT_COMPONENT, int.class, int.class, int.class);
-            TITLE_PACKET_CONSTRUCTOR = ReflectionUtil.getConstructor(TITLE_PACKET, TITLE_ACTIONS, CHAT_COMPONENT);
+            TITLE_PACKET_FULL_CONSTRUCTOR = ReflectionUtil.getConstructor(TITLE_PACKET, TITLE_ACTIONS,
+                    CHAT_COMPONENT, int.class, int.class, int.class);
+            TITLE_PACKET_CONSTRUCTOR = ReflectionUtil.getConstructor(TITLE_PACKET, TITLE_ACTIONS,
+                    CHAT_COMPONENT);
             CHAT_SERIALIZER = ReflectionUtil.getNMSClass("ChatComponentText");
         }
     }
 
     private Titles() {}
 
-    public static void send(final Player player, final String title, final String subtitle, final int fadeIn, final int stay, final int fadeOut) {
+    public static void send(final Player player, final String title, final String subtitle, final int fadeIn,
+                            final int stay, final int fadeOut) {
         if (CompatUtil.hasSendTitle()) {
-            player.sendTitle(StringUtil.color(title), subtitle != null ? StringUtil.color(subtitle) : null, fadeIn, stay, fadeOut);
+            player.sendTitle(StringUtil.color(title), subtitle != null ? StringUtil.color(subtitle) :
+                    null, fadeIn, stay, fadeOut);
         } else {
             try {
                 final Object connection = PLAYER_CONNECTION.get(GET_HANDLE.invoke(player));
                 final Object[] actions = TITLE_ACTIONS.getEnumConstants();
-                SEND_PACKET.invoke(connection, TITLE_PACKET_FULL_CONSTRUCTOR.newInstance(actions[2], null, fadeIn, stay, fadeOut));
+                SEND_PACKET.invoke(connection, TITLE_PACKET_FULL_CONSTRUCTOR.newInstance(actions[2],
+                        null, fadeIn, stay, fadeOut));
                 Object text = CHAT_SERIALIZER.getConstructor(String.class).newInstance(StringUtil.color(title));
                 SEND_PACKET.invoke(connection, TITLE_PACKET_CONSTRUCTOR.newInstance(actions[0], text));
 

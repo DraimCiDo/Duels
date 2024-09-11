@@ -1,11 +1,12 @@
 package me.realized.duels.util.reflect;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import me.realized.duels.util.Log;
 import me.realized.duels.util.NumberUtil;
 import org.bukkit.Bukkit;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public final class ReflectionUtil {
 
@@ -17,7 +18,8 @@ public final class ReflectionUtil {
         PACKAGE_VERSION = packageName.substring(packageName.lastIndexOf('.') + 1);
         if (PACKAGE_VERSION.equalsIgnoreCase("craftbukkit")) {
             String bukkitVersion = Bukkit.getBukkitVersion();
-            MAJOR_VERSION = NumberUtil.parseInt(bukkitVersion.split("-")[0].split("\\.")[1]).orElse(0);
+            MAJOR_VERSION = NumberUtil.parseInt(bukkitVersion
+                    .split("-")[0].split("\\.")[1]).orElse(0);
         } else {
             MAJOR_VERSION = NumberUtil.parseInt(PACKAGE_VERSION.split("_")[1]).orElse(0);
         }
@@ -45,7 +47,8 @@ public final class ReflectionUtil {
 
     public static Class<?> getNMSClass(final String name, final boolean logError) {
         try {
-            return Class.forName("net.minecraft" + (getMajorVersion() < 17 ? (".server." + PACKAGE_VERSION) : "") + "." + name);
+            return Class.forName("net.minecraft" +
+                    (getMajorVersion() < 17 ? (".server." + PACKAGE_VERSION) : "") + "." + name);
         } catch (ClassNotFoundException ex) {
             if (logError) {
                 Log.error(ex.getMessage(), ex);
@@ -87,13 +90,15 @@ public final class ReflectionUtil {
         }
     }
 
-    private static Method findDeclaredMethod(final Class<?> clazz, final String name, final Class<?>... parameters) throws NoSuchMethodException {
+    private static Method findDeclaredMethod(final Class<?> clazz, final String name,
+                                             final Class<?>... parameters) throws NoSuchMethodException {
         final Method method = clazz.getDeclaredMethod(name, parameters);
         method.setAccessible(true);
         return method;
     }
 
-    public static Method getDeclaredMethod(final Class<?> clazz, final String name, final Class<?>... parameters) {
+    public static Method getDeclaredMethod(final Class<?> clazz, final String name,
+                                           final Class<?>... parameters) {
         try {
             return findDeclaredMethod(clazz, name, parameters);
         } catch (NoSuchMethodException ex) {
@@ -102,7 +107,8 @@ public final class ReflectionUtil {
         }
     }
 
-    public static Method getDeclaredMethodUnsafe(final Class<?> clazz, final String name, final Class<?>... parameters) {
+    public static Method getDeclaredMethodUnsafe(final Class<?> clazz, final String name,
+                                                 final Class<?>... parameters) {
         try {
             return findDeclaredMethod(clazz, name, parameters);
         } catch (NoSuchMethodException ex) {

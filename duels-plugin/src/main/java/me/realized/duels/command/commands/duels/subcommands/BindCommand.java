@@ -1,6 +1,5 @@
 package me.realized.duels.command.commands.duels.subcommands;
 
-import java.util.List;
 import me.realized.duels.DuelsPlugin;
 import me.realized.duels.command.BaseCommand;
 import me.realized.duels.gui.bind.BindGui;
@@ -10,15 +9,19 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 public class BindCommand extends BaseCommand {
 
     public BindCommand(final DuelsPlugin plugin) {
-        super(plugin, "bind", "bind [kit]", "Opens the arena bind gui for kit.", 2, true);
+        super(plugin, "bind", "bind [kit]", "Opens the arena bind gui for kit.",
+                2, true);
     }
 
     @Override
     protected void execute(final CommandSender sender, final String label, final String[] args) {
-        final String name = StringUtil.join(args, " ", 1, args.length).replace("-", " ");
+        final String name = StringUtil.join(args, " ", 1, args.length)
+                .replace("-", " ");
         final KitImpl kit = kitManager.get(name);
 
         if (kit == null) {
@@ -31,7 +34,8 @@ public class BindCommand extends BaseCommand {
     }
 
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
+    public List<String> onTabComplete(final CommandSender sender, final Command command,
+                                      final String alias, final String[] args) {
         if (args.length == 2) {
             return handleTabCompletion(args[1], kitManager.getNames(false));
         }

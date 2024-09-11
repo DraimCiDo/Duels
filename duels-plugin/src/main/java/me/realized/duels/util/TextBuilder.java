@@ -1,14 +1,15 @@
 package me.realized.duels.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 public final class TextBuilder {
 
@@ -43,7 +44,8 @@ public final class TextBuilder {
     }
 
     public static TextBuilder of(final String base) {
-        return of(base, null, null, null, null);
+        return of(base, null,
+                null, null, null);
     }
 
     public TextBuilder add(final String text) {

@@ -1,16 +1,18 @@
 package me.realized.duels.command.commands.duels.subcommands;
 
-import java.util.Arrays;
 import me.realized.duels.DuelsPlugin;
 import me.realized.duels.command.BaseCommand;
 import me.realized.duels.util.StringUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+
 public class SavekitCommand extends BaseCommand {
 
     public SavekitCommand(final DuelsPlugin plugin) {
-        super(plugin, "savekit", "savekit [name]", "Saves a kit with given name.", 2, true);
+        super(plugin, "savekit", "savekit [name]",
+                "Saves a kit with given name.", 2, true);
     }
 
     @Override

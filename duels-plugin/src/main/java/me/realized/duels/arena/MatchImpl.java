@@ -1,15 +1,5 @@
 package me.realized.duels.arena;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Set;
-import java.util.UUID;
-import java.util.stream.Collectors;
 import lombok.Getter;
 import me.realized.duels.api.match.Match;
 import me.realized.duels.kit.KitImpl;
@@ -17,6 +7,10 @@ import me.realized.duels.queue.Queue;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class MatchImpl implements Match {
 
@@ -38,7 +32,8 @@ public class MatchImpl implements Match {
     // Default value for players is false, which is set to true if player is killed in the match.
     private final Map<Player, Boolean> players = new HashMap<>();
 
-    MatchImpl(final ArenaImpl arena, final KitImpl kit, final Map<UUID, List<ItemStack>> items, final int bet, final Queue source) {
+    MatchImpl(final ArenaImpl arena, final KitImpl kit, final Map<UUID, List<ItemStack>> items,
+              final int bet, final Queue source) {
         this.arena = arena;
         this.start = System.currentTimeMillis();
         this.kit = kit;
@@ -52,7 +47,8 @@ public class MatchImpl implements Match {
     }
 
     Set<Player> getAlivePlayers() {
-        return players.entrySet().stream().filter(entry -> !entry.getValue()).map(Entry::getKey).collect(Collectors.toSet());
+        return players.entrySet().stream().filter(entry -> !entry.getValue()).map(Entry::getKey)
+                .collect(Collectors.toSet());
     }
 
     public Set<Player> getAllPlayers() {
@@ -72,7 +68,8 @@ public class MatchImpl implements Match {
     }
     
     public List<ItemStack> getItems() {
-        return items != null ? items.values().stream().flatMap(Collection::stream).collect(Collectors.toList()) : Collections.emptyList();
+        return items != null ? items.values().stream().flatMap(Collection::stream).collect(Collectors.toList()) :
+                Collections.emptyList();
     }
 
     void setFinished() {
