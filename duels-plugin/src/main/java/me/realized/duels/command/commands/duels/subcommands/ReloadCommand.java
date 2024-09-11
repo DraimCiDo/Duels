@@ -15,8 +15,7 @@ import java.util.stream.Collectors;
 public class ReloadCommand extends BaseCommand {
 
     public ReloadCommand(final DuelsPlugin plugin) {
-        super(plugin,
-                "reload", null, null, 1, false, "rl");
+        super(plugin, "reload", null, null, 1, false, "rl");
     }
 
     @Override
@@ -25,41 +24,34 @@ public class ReloadCommand extends BaseCommand {
             final Loadable target = plugin.find(args[1]);
 
             if (!(target instanceof Reloadable)) {
-                sender.sendMessage(ChatColor.RED +
-                        "Invalid module. The following modules are available for a reload: "
-                        + StringUtil.join(plugin.getReloadables(), ", "));
+                sender.sendMessage(ChatColor.RED + "Invalid module. The following modules are available for a reload: " + StringUtil.join(plugin.getReloadables(), ", "));
                 return;
             }
 
             final String name = target.getClass().getSimpleName();
 
             if (plugin.reload(target)) {
-                sender.sendMessage(ChatColor.GREEN + "[" + plugin.getDescription().getFullName() +
-                        "] Successfully reloaded " + name + ".");
+                sender.sendMessage(ChatColor.GREEN + "[" + plugin.getDescription().getFullName() + "] Successfully reloaded " + name + ".");
             } else {
-                sender.sendMessage(ChatColor.RED + "An error occured while reloading " + name +
-                        "! Please check the console for more information.");
+                sender.sendMessage(ChatColor.RED + "An error occured while reloading " + name + "! Please check the console for more information.");
             }
 
             return;
         }
 
         if (plugin.reload()) {
-            sender.sendMessage(ChatColor.GREEN + "[" + plugin.getDescription().getFullName() +
-                    "] Reload complete.");
+            sender.sendMessage(ChatColor.GREEN + "[" + plugin.getDescription().getFullName() + "] Reload complete.");
         } else {
-            sender.sendMessage(ChatColor.RED +
-                    "An error occured while reloading the plugin! Please check the console for more information.");
+            sender.sendMessage(ChatColor.RED + "An error occured while reloading the plugin! Please check the console for more information.");
         }
     }
 
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command command,
-                                      final String alias, final String[] args) {
+    public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
         if (args.length == 2) {
             return plugin.getReloadables().stream()
-                .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))
-                .collect(Collectors.toList());
+                    .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))
+                    .collect(Collectors.toList());
         }
 
         return null;

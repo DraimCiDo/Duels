@@ -1,5 +1,6 @@
 package me.realized.duels.util;
 
+import me.realized.duels.DuelsPlugin;
 import org.bukkit.plugin.Plugin;
 
 import java.io.BufferedReader;
@@ -23,9 +24,8 @@ public final class UpdateChecker {
     public void check(final BiConsumer<Boolean, String> callback) {
         final String currentVersion = plugin.getDescription().getVersion();
 
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, () -> {
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(
-                    new URL(String.format(API_URL, id)).openStream()))) {
+        DuelsPlugin.getMorePaperLib().scheduling().asyncScheduler().run(() -> {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new URL(String.format(API_URL, id)).openStream()))) {
                 final String latestVersion = reader.readLine();
 
                 if (latestVersion == null) {
@@ -34,7 +34,8 @@ public final class UpdateChecker {
 
                 final boolean updateAvailable = NumberUtil.isLower(currentVersion, latestVersion);
                 callback.accept(updateAvailable, updateAvailable ? latestVersion : currentVersion);
-            } catch (IOException ignored) {}
+            } catch (IOException ignored) {
+            }
         });
     }
 }

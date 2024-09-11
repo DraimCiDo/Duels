@@ -7,11 +7,9 @@ public class CC {
     public static String translate(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
-
     public static String getTimeDifferenceAndColor(long start, long end) {
         return getColorBasedOnSize((end - start), 20, 5000, 10000) + "" + (end - start) + "ms";
     }
-
     public static ChatColor getColorBasedOnSize(long num, int low, int med, int high) {
         if (num <= low) {
             return ChatColor.GREEN;

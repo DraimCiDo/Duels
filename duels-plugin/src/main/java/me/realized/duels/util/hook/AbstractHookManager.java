@@ -26,8 +26,7 @@ public abstract class AbstractHookManager<P extends JavaPlugin> {
 
         try {
             if (hooks.putIfAbsent(clazz, clazz.getConstructor(plugin.getClass()).newInstance(plugin)) != null) {
-                plugin.getLogger().warning("Failed to hook into " + name +
-                        ": There was already a hook registered with same name");
+                plugin.getLogger().warning("Failed to hook into " + name + ": There was already a hook registered with same name");
                 return;
             }
 

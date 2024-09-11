@@ -13,8 +13,7 @@ import java.util.stream.Collectors;
 public class PlaysoundCommand extends BaseCommand {
 
     public PlaysoundCommand(final DuelsPlugin plugin) {
-        super(plugin, "playsound", "playsound [name]",
-                "Plays the selected sound if defined.", 2, true);
+        super(plugin, "playsound", "playsound [name]", "Plays the selected sound if defined.", 2, true);
     }
 
     @Override
@@ -31,12 +30,11 @@ public class PlaysoundCommand extends BaseCommand {
     }
 
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command command,
-                                      final String alias, final String[] args) {
+    public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
         if (args.length == 2) {
             return config.getSounds().stream()
-                .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))
-                .collect(Collectors.toList());
+                    .filter(name -> name.toLowerCase().startsWith(args[1].toLowerCase()))
+                    .collect(Collectors.toList());
         }
 
         return null;

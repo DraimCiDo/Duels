@@ -13,8 +13,7 @@ import java.util.List;
 public class LoadkitCommand extends BaseCommand {
 
     public LoadkitCommand(final DuelsPlugin plugin) {
-        super(plugin, "loadkit", "loadkit [name]",
-                "Loads the selected kit to your inventory.", 2, true);
+        super(plugin, "loadkit", "loadkit [name]", "Loads the selected kit to your inventory.", 2, true);
     }
 
     @Override
@@ -34,8 +33,7 @@ public class LoadkitCommand extends BaseCommand {
     }
 
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command command,
-                                      final String alias, final String[] args) {
+    public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
         if (args.length == 2) {
             return handleTabCompletion(args[1], kitManager.getNames(false));
         }

@@ -14,7 +14,8 @@ public final class Log {
 
     private static final List<LogSource> sources = new ArrayList<>();
 
-    private Log() {}
+    private Log() {
+    }
 
     public static void addSource(final LogSource source) {
         sources.add(source);
@@ -39,8 +40,7 @@ public final class Log {
     public static void warn(final String s) {
         for (final LogSource source : sources) {
             if (source instanceof Plugin) {
-                Bukkit.getConsoleSender().sendMessage(StringUtil.color(String
-                        .format(PLUGIN_WARN, ((Plugin) source).getName(), s)));
+                Bukkit.getConsoleSender().sendMessage(StringUtil.color(String.format(PLUGIN_WARN, ((Plugin) source).getName(), s)));
             } else {
                 source.log(Level.WARNING, s);
             }
@@ -54,8 +54,7 @@ public final class Log {
     public static void error(final String s, final Throwable thrown) {
         for (final LogSource source : sources) {
             if (source instanceof Plugin) {
-                Bukkit.getConsoleSender().sendMessage(StringUtil.color(String
-                        .format(PLUGIN_ERROR, ((Plugin) source).getName(), s)));
+                Bukkit.getConsoleSender().sendMessage(StringUtil.color(String.format(PLUGIN_ERROR, ((Plugin) source).getName(), s)));
             } else if (thrown != null) {
                 source.log(Level.SEVERE, s, thrown);
             } else {

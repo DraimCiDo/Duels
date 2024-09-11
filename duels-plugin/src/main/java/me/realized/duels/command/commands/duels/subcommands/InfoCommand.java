@@ -15,8 +15,7 @@ import java.util.stream.Collectors;
 public class InfoCommand extends BaseCommand {
 
     public InfoCommand(final DuelsPlugin plugin) {
-        super(plugin, "info", "info [name]",
-                "Displays information about the selected arena.", 2, false);
+        super(plugin, "info", "info [name]", "Displays information about the selected arena.", 2, false);
     }
 
     @Override
@@ -29,26 +28,18 @@ public class InfoCommand extends BaseCommand {
             return;
         }
 
-        final String inUse = arena.isUsed() ? lang.getMessage("GENERAL.true") :
-                lang.getMessage("GENERAL.false");
-        final String disabled = arena.isDisabled() ? lang.getMessage("GENERAL.true") :
-                lang.getMessage("GENERAL.false");
-        final String kits = StringUtil.join(arena.getKits().stream().map(KitImpl::getName)
-                .collect(Collectors.toList()), ", ");
-        final String positions = StringUtil.join(arena.getPositions().values().stream().map(StringUtil::parse)
-                .collect(Collectors.toList()), ", ");
-        final String players = StringUtil.join(arena.getPlayers().stream().map(Player::getName)
-                .collect(Collectors.toList()), ", ");
-        lang.sendMessage(sender, "COMMAND.duels.info", "name", name, "in_use", inUse,
-                "disabled", disabled, "kits",
-                !kits.isEmpty() ? kits : lang.getMessage("GENERAL.none"), "positions", !positions.isEmpty() ?
-                        positions : lang.getMessage("GENERAL.none"), "players",
-            !players.isEmpty() ? players : lang.getMessage("GENERAL.none"));
+        final String inUse = arena.isUsed() ? lang.getMessage("GENERAL.true") : lang.getMessage("GENERAL.false");
+        final String disabled = arena.isDisabled() ? lang.getMessage("GENERAL.true") : lang.getMessage("GENERAL.false");
+        final String kits = StringUtil.join(arena.getKits().stream().map(KitImpl::getName).collect(Collectors.toList()), ", ");
+        final String positions = StringUtil.join(arena.getPositions().values().stream().map(StringUtil::parse).collect(Collectors.toList()), ", ");
+        final String players = StringUtil.join(arena.getPlayers().stream().map(Player::getName).collect(Collectors.toList()), ", ");
+        lang.sendMessage(sender, "COMMAND.duels.info", "name", name, "in_use", inUse, "disabled", disabled, "kits",
+                !kits.isEmpty() ? kits : lang.getMessage("GENERAL.none"), "positions", !positions.isEmpty() ? positions : lang.getMessage("GENERAL.none"), "players",
+                !players.isEmpty() ? players : lang.getMessage("GENERAL.none"));
     }
 
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command command,
-                                      final String alias, final String[] args) {
+    public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
         if (args.length == 2) {
             return handleTabCompletion(args[1], arenaManager.getNames());
         }

@@ -30,7 +30,8 @@ public class GuiListener<P extends JavaPlugin> implements Loadable, Listener {
     }
 
     @Override
-    public void handleLoad() {}
+    public void handleLoad() {
+    }
 
     @Override
     public void handleUnload() {
@@ -45,8 +46,7 @@ public class GuiListener<P extends JavaPlugin> implements Loadable, Listener {
     }
 
     /**
-     * @param removeSameType Prevents memory leaks in case of gui open
-     *                       failing for guis that remove themselves on inventory close.
+     * @param removeSameType Prevents memory leaks in case of gui open failing for guis that remove themselves on inventory close.
      */
     public <T extends AbstractGui<P>> T addGui(final Player player, final T gui, final boolean removeSameType) {
         if (removeSameType) {

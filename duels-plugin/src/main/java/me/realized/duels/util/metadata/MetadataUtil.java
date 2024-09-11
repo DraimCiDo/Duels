@@ -7,11 +7,11 @@ import org.bukkit.plugin.Plugin;
 
 public final class MetadataUtil {
 
-    private MetadataUtil() {}
+    private MetadataUtil() {
+    }
 
     public static Object get(final Plugin plugin, final Entity entity, final String key) {
-        return entity.getMetadata(key).stream().filter(value ->
-                value.getOwningPlugin().equals(plugin)).findFirst().map(MetadataValue::value).orElse(null);
+        return entity.getMetadata(key).stream().filter(value -> value.getOwningPlugin().equals(plugin)).findFirst().map(MetadataValue::value).orElse(null);
     }
 
     public static void put(final Plugin plugin, final Entity entity, final String key, final Object data) {

@@ -23,8 +23,7 @@ public class AcceptCommand extends BaseCommand {
     private final WorldGuardHook worldGuard;
 
     public AcceptCommand(final DuelsPlugin plugin) {
-        super(plugin, "accept", "accept [player]", "Accepts a duel request.",
-                2, true);
+        super(plugin, "accept", "accept [player]", "Accepts a duel request.", 2, true);
         this.combatTagPlus = hookManager.getHook(CombatTagPlusHook.class);
         this.pvpManager = hookManager.getHook(PvPManagerHook.class);
         this.combatLogX = plugin.getHookManager().getHook(CombatLogXHook.class);
@@ -46,8 +45,8 @@ public class AcceptCommand extends BaseCommand {
         }
 
         if ((combatTagPlus != null && combatTagPlus.isTagged(player))
-            || (pvpManager != null && pvpManager.isTagged(player))
-            || (combatLogX != null && combatLogX.isTagged(player))) {
+                || (pvpManager != null && pvpManager.isTagged(player))
+                || (combatLogX != null && combatLogX.isTagged(player))) {
             lang.sendMessage(sender, "ERROR.duel.is-tagged");
             return;
         }
@@ -103,19 +102,14 @@ public class AcceptCommand extends BaseCommand {
         }
 
         final Settings settings = request.getSettings();
-        final String kit = settings.getKit() != null ? settings.getKit().getName() :
-                lang.getMessage("GENERAL.not-selected");
-        final String arena = settings.getArena() != null ? settings.getArena().getName() :
-                lang.getMessage("GENERAL.random");
+        final String kit = settings.getKit() != null ? settings.getKit().getName() : lang.getMessage("GENERAL.not-selected");
+        final String arena = settings.getArena() != null ? settings.getArena().getName() : lang.getMessage("GENERAL.random");
         final double bet = settings.getBet();
-        final String itemBetting = settings.isItemBetting() ? lang.getMessage("GENERAL.enabled") :
-                lang.getMessage("GENERAL.disabled");
+        final String itemBetting = settings.isItemBetting() ? lang.getMessage("GENERAL.enabled") : lang.getMessage("GENERAL.disabled");
         lang.sendMessage(player, "COMMAND.duel.request.accept.receiver",
-                "name", target.getName(), "kit", kit, "arena", arena, "bet_amount", bet,
-                "item_betting", itemBetting);
+                "name", target.getName(), "kit", kit, "arena", arena, "bet_amount", bet, "item_betting", itemBetting);
         lang.sendMessage(target, "COMMAND.duel.request.accept.sender",
-                "name", player.getName(), "kit", kit, "arena", arena, "bet_amount", bet,
-                "item_betting", itemBetting);
+                "name", player.getName(), "kit", kit, "arena", arena, "bet_amount", bet, "item_betting", itemBetting);
 
         if (settings.isItemBetting()) {
             settings.setBaseLoc(player);

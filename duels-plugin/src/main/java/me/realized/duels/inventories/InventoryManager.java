@@ -1,13 +1,15 @@
 package me.realized.duels.inventories;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 import me.realized.duels.DuelsPlugin;
 import me.realized.duels.gui.inventory.InventoryGui;
 import me.realized.duels.util.Loadable;
 import me.realized.duels.util.gui.GuiListener;
 import org.bukkit.entity.Player;
+import space.arim.morepaperlib.scheduling.ScheduledTask;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class InventoryManager implements Loadable {
 
@@ -15,7 +17,7 @@ public class InventoryManager implements Loadable {
     private final GuiListener<DuelsPlugin> guiListener;
     private final Map<UUID, InventoryGui> inventories = new HashMap<>();
 
-    private int expireTask;
+    private ScheduledTask expireTask;
 
     public InventoryManager(final DuelsPlugin plugin) {
         this.plugin = plugin;
@@ -35,7 +37,7 @@ public class InventoryManager implements Loadable {
 
                 return false;
             });
-        }, 20L, 20L * 5).getTaskId();
+        }, 20L, 20L * 5);
     }
 
     @Override

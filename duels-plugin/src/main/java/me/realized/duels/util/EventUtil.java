@@ -6,16 +6,16 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public final class EventUtil {
 
+    private EventUtil() {
+    }
+
     public static Player getDamager(final EntityDamageByEntityEvent event) {
         if (event.getDamager() instanceof Player) {
             return (Player) event.getDamager();
-        } else if (event.getDamager() instanceof Projectile && ((Projectile) event.getDamager())
-                .getShooter() instanceof Player) {
+        } else if (event.getDamager() instanceof Projectile && ((Projectile) event.getDamager()).getShooter() instanceof Player) {
             return (Player) ((Projectile) event.getDamager()).getShooter();
         }
 
         return null;
     }
-
-    private EventUtil() {}
 }

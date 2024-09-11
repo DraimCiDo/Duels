@@ -13,16 +13,15 @@ import org.bukkit.plugin.PluginDescriptionFile;
 public class VersionCommand extends BaseCommand {
 
     public VersionCommand(final DuelsPlugin plugin) {
-        super(plugin, "version", null, null, Permissions.DUEL,
-                1, true, "v");
+        super(plugin, "version", null, null, Permissions.DUEL, 1, true, "v");
     }
 
     @Override
     protected void execute(final CommandSender sender, final String label, final String[] args) {
         final PluginDescriptionFile info = plugin.getDescription();
         TextBuilder
-            .of(StringUtil.color("&b" + info.getFullName() + " by " + info.getAuthors().get(0) + " &l[Click]"))
-            .setClickEvent(Action.OPEN_URL, info.getWebsite())
-            .send((Player) sender);
+                .of(StringUtil.color("&b" + info.getFullName() + " by " + info.getAuthors().get(0) + " &l[Click]"))
+                .setClickEvent(Action.OPEN_URL, info.getWebsite())
+                .send((Player) sender);
     }
 }

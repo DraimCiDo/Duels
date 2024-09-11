@@ -61,7 +61,7 @@ supported-plugins:
       enabled: false
 
       # List of regions to allow dueling.
-      regions: [spawn, lobby]
+      regions: [ spawn, lobby ]
   MyPet:
     # If set to 'true', player's pet will despawn when entering a duel.
     # default: false
@@ -107,9 +107,9 @@ request:
     # NOTE: If set to 'false', Kit Selector will first open instead of Request Settings GUI when initiating a duel request.
     # default: true
     enabled: true
-    
+
     # If set to 'true', players will drop their inventory items on death in an own inventory duel.
-    # WARNING: Players will NOT have their inventories restored after the duel if this option is enabled! 
+    # WARNING: Players will NOT have their inventories restored after the duel if this option is enabled!
     #          Increase 'teleport-delay' so that the winner has time to pick up dropped items.
     # default: false
     drop-inventory-items: false
@@ -177,7 +177,7 @@ duel:
       # Available placeholders:
       # %player% - Name of the player entering the match
       commands:
-      - 'broadcast %player% is entering a duel!'
+        - 'broadcast %player% is entering a duel!'
 
     end-commands:
       # If set to 'true', the commands listed below will run at the end of a match.
@@ -191,9 +191,13 @@ duel:
       # Available placeholders:
       # %winner% - Name of the winner of the match
       # %loser% - Name of the loser of the match
+      # {delay:x} - Used to give x ms of delay before running any command
       commands:
-      - 'give %winner% diamond 1'
-      - 'give %loser% dirt 1'
+        - 'give %winner% diamond 1'
+        - 'give %loser% dirt 1'
+        - 'give %winner% diamond 1{delay:10}'
+        - 'give %loser% dirt 1{delay:50}'
+        - 'say Congratulations %winner%!{delay:100}'
 
   projectile-hit-message:
     # If set to 'true', a message from lang.yml will be sent to the shooter of the projectile.
@@ -201,7 +205,7 @@ duel:
     enabled: true
 
     # Projectile types to display the message.
-    types: [ARROW, TIPPED_ARROW, SPECTRAL_ARROW, TRIDENT]
+    types: [ ARROW, TIPPED_ARROW, SPECTRAL_ARROW, TRIDENT ]
 
   # If set to 'true', players in duel will not be able to open any kind of inventories except their own.
   # default: true
@@ -258,6 +262,7 @@ duel:
   # If set to 'true', players in duel will not be able to drop items.
   # default: false
   prevent-item-drop: false
+  clear-items-after-duel: true
 
   # If set to 'true', players in duel will not be able to pickup items on the ground.
   # default: false
@@ -297,79 +302,79 @@ duel:
   # List of commands to block while in a duel.
   # NOTE: Only active if 'block-all-commands' is disabled!
   blacklisted-commands:
-  - 'heal'
-  - 'eheal'
-  - 'essentials:heal'
-  - 'essentials:eheal'
-  - 'kit'
-  - 'ekit'
-  - 'kits'
-  - 'ekits'
-  - 'essentials:kit'
-  - 'essentials:ekit'
-  - 'essentials:kits'
-  - 'essentials:ekits'
-  - 'enderchest'
-  - 'echest'
-  - 'eechest'
-  - 'eenderchest'
-  - 'endersee'
-  - 'eendersee'
-  - 'ec'
-  - 'eec'
-  - 'essentials:enderchest'
-  - 'essentials:echest'
-  - 'essentials:eechest'
-  - 'essentials:eenderchest'
-  - 'essentials:endersee'
-  - 'essentials:eendersee'
-  - 'essentials:ec'
-  - 'essentials:eec'
-  - 'tpaccept'
-  - 'etpaccept'
-  - 'tpyes'
-  - 'etpyes'
-  - 'essentials:tpaccept'
-  - 'essentials:etpaccept'
-  - 'essentials:tpyes'
-  - 'essentials:etpyes'
-  - 'tpahere'
-  - 'etpahere'
-  - 'essentials:tpahere'
-  - 'essentials:etpahere'
-  - 'back'
-  - 'eback'
-  - 'return'
-  - 'ereturn'
-  - 'essentials:back'
-  - 'essentials:eback'
-  - 'essentials:return'
-  - 'essentials:ereturn'
-  - 'sethome'
-  - 'esethome'
-  - 'createhome'
-  - 'ecreatehome'
-  - 'essentials:sethome'
-  - 'essentials:esethome'
-  - 'essentials:createhome'
-  - 'essentials:ecreatehome'
-  - 'spawn'
-  - 'espawn'
-  - 'essentials:spawn'
-  - 'essentials:espawn'
-  - 'vault'
-  - 'chest'
-  - 'pv'
-  - 'playervaults'
-  - 'playervaults:vault'
-  - 'playervaults:chest'
-  - 'playervaults:pv'
-  - 'playervaults:playervaults'
+    - 'heal'
+    - 'eheal'
+    - 'essentials:heal'
+    - 'essentials:eheal'
+    - 'kit'
+    - 'ekit'
+    - 'kits'
+    - 'ekits'
+    - 'essentials:kit'
+    - 'essentials:ekit'
+    - 'essentials:kits'
+    - 'essentials:ekits'
+    - 'enderchest'
+    - 'echest'
+    - 'eechest'
+    - 'eenderchest'
+    - 'endersee'
+    - 'eendersee'
+    - 'ec'
+    - 'eec'
+    - 'essentials:enderchest'
+    - 'essentials:echest'
+    - 'essentials:eechest'
+    - 'essentials:eenderchest'
+    - 'essentials:endersee'
+    - 'essentials:eendersee'
+    - 'essentials:ec'
+    - 'essentials:eec'
+    - 'tpaccept'
+    - 'etpaccept'
+    - 'tpyes'
+    - 'etpyes'
+    - 'essentials:tpaccept'
+    - 'essentials:etpaccept'
+    - 'essentials:tpyes'
+    - 'essentials:etpyes'
+    - 'tpahere'
+    - 'etpahere'
+    - 'essentials:tpahere'
+    - 'essentials:etpahere'
+    - 'back'
+    - 'eback'
+    - 'return'
+    - 'ereturn'
+    - 'essentials:back'
+    - 'essentials:eback'
+    - 'essentials:return'
+    - 'essentials:ereturn'
+    - 'sethome'
+    - 'esethome'
+    - 'createhome'
+    - 'ecreatehome'
+    - 'essentials:sethome'
+    - 'essentials:esethome'
+    - 'essentials:createhome'
+    - 'essentials:ecreatehome'
+    - 'spawn'
+    - 'espawn'
+    - 'essentials:spawn'
+    - 'essentials:espawn'
+    - 'vault'
+    - 'chest'
+    - 'pv'
+    - 'playervaults'
+    - 'playervaults:vault'
+    - 'playervaults:chest'
+    - 'playervaults:pv'
+    - 'playervaults:playervaults'
 
 
 queue:
   # List of commands to block while in a queue.
-  blacklisted-commands: []
+  blacklisted-commands: [ ]
 
 
 rating:
@@ -513,7 +518,7 @@ guis:
 
     # Item used to fill empty spaces in the kit selector GUI.
     space-filler-item:
-      type: STAINED_GLASS_PANE
+      type: WHITE_STAINED_GLASS_PANE
       data: 0
   arena-selector:
     # Amount of rows to display in one page of the arena selector GUI.
@@ -523,12 +528,12 @@ guis:
 
     # Item used to fill empty spaces in the arena selector GUI.
     space-filler-item:
-      type: STAINED_GLASS_PANE
+      type: WHITE_STAINED_GLASS_PANE
       data: 0
   settings:
     # Item used to fill empty spaces in the settings GUI.
     space-filler-item:
-      type: STAINED_GLASS_PANE
+      type: WHITE_STAINED_GLASS_PANE
       data: 0
   queues:
     # Amount of rows to display in one page of the queues GUI.
@@ -538,7 +543,7 @@ guis:
 
     # Item used to fill empty spaces in the queues GUI.
     space-filler-item:
-      type: STAINED_GLASS_PANE
+      type: WHITE_STAINED_GLASS_PANE
       data: 0
 
     # If set to 'true', the type of the queue's displayed item will be its kit's displayed item type.
@@ -572,33 +577,44 @@ sounds:
     pitch: 0.95
     volume: 1.0
     trigger-messages:
-    - '&7Starting in &f5 &7seconds!'
-    - '&7Starting in &f4 &7seconds!'
-    - '&7Starting in &f3 &7seconds!'
-    - '&7Starting in &f2 &7seconds!'
-    - '&7Starting in &f1 &7second!'
+      - '&7Starting in &f5 &7seconds!'
+      - '&7Starting in &f4 &7seconds!'
+      - '&7Starting in &f3 &7seconds!'
+      - '&7Starting in &f2 &7seconds!'
+      - '&7Starting in &f1 &7second!'
   # Remove this sound if your server version is 1.8!
   countdown-ongoing-sound-1-9:
     type: BLOCK_NOTE_PLING
     pitch: 0.95
     volume: 1.0
     trigger-messages:
-    - '&7Starting in &f5 &7seconds!'
-    - '&7Starting in &f4 &7seconds!'
-    - '&7Starting in &f3 &7seconds!'
-    - '&7Starting in &f2 &7seconds!'
-    - '&7Starting in &f1 &7second!'
+      - '&7Starting in &f5 &7seconds!'
+      - '&7Starting in &f4 &7seconds!'
+      - '&7Starting in &f3 &7seconds!'
+      - '&7Starting in &f2 &7seconds!'
+      - '&7Starting in &f1 &7second!'
   # Remove this sound if your server version is above 1.8!
   countdown-end-sound-1-8:
     type: NOTE_PIANO
     pitch: 1.9
     volume: 1.0
     trigger-messages:
-    - '&7Now in a match against &f%opponent%&7(&a%opponent_rating%&7) with kit &3%kit% &7in arena &e%arena%&7.'
+      - '&7Now in a match against &f%opponent%&7(&a%opponent_rating%&7) with kit &3%kit% &7in arena &e%arena%&7.'
   # Remove this sound if your server version is 1.8!
   countdown-end-sound-1-9:
     type: BLOCK_NOTE_PLING
     pitch: 1.9
     volume: 1.0
     trigger-messages:
-    - '&7Now in a match against &f%opponent%&7(&a%opponent_rating%&7) with kit &3%kit% &7in arena &e%arena%&7.'
+      - '&7Now in a match against &f%opponent%&7(&a%opponent_rating%&7) with kit &3%kit% &7in arena &e%arena%&7.'
+
+
+# Firework configuration settings
+firework:
+  # Available color options:
+  # AQUA, BLACK, BLUE, FUCHSIA, GRAY, GREEN, LIME, MAROON, NAVY, OLIVE, ORANGE, PURPLE, RED, SILVER, TEAL, WHITE, YELLOW
+  color: AQUA
+
+  # Available type options:
+  # BALL, BALL_LARGE, BURST, CREEPER, STAR
+  type: BALL_LARGE

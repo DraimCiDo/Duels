@@ -39,9 +39,8 @@ public abstract class AbstractCommand<P extends JavaPlugin> implements TabComple
 
     private Map<String, AbstractCommand<P>> children;
 
-    protected AbstractCommand(final P plugin, final String name, final String usage,
-                              final String description, final String permission, final int length,
-        final boolean playerOnly, final String... aliases) {
+    protected AbstractCommand(final P plugin, final String name, final String usage, final String description, final String permission, final int length,
+                              final boolean playerOnly, final String... aliases) {
         this.plugin = plugin;
         this.name = name;
         this.usage = usage;
@@ -57,8 +56,7 @@ public abstract class AbstractCommand<P extends JavaPlugin> implements TabComple
     }
 
     protected AbstractCommand(final P plugin, final SubCommand sub) {
-        this(plugin, sub.getName(), sub.getUsage(), sub.getDescription(),
-                sub.getPermission(), sub.getLength(), sub.isPlayerOnly(), sub.getAliases());
+        this(plugin, sub.getName(), sub.getUsage(), sub.getDescription(), sub.getPermission(), sub.getLength(), sub.isPlayerOnly(), sub.getAliases());
     }
 
     @SafeVarargs
@@ -135,8 +133,7 @@ public abstract class AbstractCommand<P extends JavaPlugin> implements TabComple
                 }
 
                 if (args.length < child.length) {
-                    handleMessage(sender, MessageType.SUB_COMMAND_USAGE, label,
-                            child.getUsage(), child.getDescription());
+                    handleMessage(sender, MessageType.SUB_COMMAND_USAGE, label, child.getUsage(), child.getDescription());
                     return true;
                 }
 
@@ -165,19 +162,18 @@ public abstract class AbstractCommand<P extends JavaPlugin> implements TabComple
     }
 
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command command,
-                                      final String alias, final String[] args) {
+    public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
         if (args.length == 0) {
             return null;
         }
 
         if (args.length == 1 && children != null) {
             return children.values().stream()
-                .map(AbstractCommand::getName)
-                .filter(childName -> childName.startsWith(args[0].toLowerCase()))
-                .distinct()
-                .sorted(String::compareTo)
-                .collect(Collectors.toList());
+                    .map(AbstractCommand::getName)
+                    .filter(childName -> childName.startsWith(args[0].toLowerCase()))
+                    .distinct()
+                    .sorted(String::compareTo)
+                    .collect(Collectors.toList());
         }
 
         return null;

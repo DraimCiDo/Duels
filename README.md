@@ -1,4 +1,4 @@
-<h1>Duels</h1> 
+<h1>Duels</h1>
 
 [![](https://jitpack.io/v/Realizedd/Duels.svg)](https://jitpack.io/#Realizedd/Duels)
 
@@ -18,6 +18,7 @@ A duel plugin for spigot. <a href="https://www.spigotmc.org/resources/duels.2017
 ### Getting the dependency
 
 #### Repository
+
 Gradle:
 
 ```groovy
@@ -37,6 +38,7 @@ Maven:
 ```
 
 #### Dependency
+
 Gradle:
 
 ```groovy
@@ -70,3 +72,4 @@ public void onEnable() {
   Duels api = (Duels) Bukkit.getServer().getPluginManager().getPlugin("Duels");
 }
 ```
+

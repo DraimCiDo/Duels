@@ -1,28 +1,28 @@
 name: Duels
 main: me.realized.duels.DuelsPlugin
-version: 4.0.0-BETA
-softdepend: [BountyHunters, CombatLogX, CombatTagPlus, Essentials, Factions, LeaderHeads, mcMMO, MVdWPlaceholderAPI, MyPet, PlaceholderAPI, PvPManager, SimpleClans, Vault, WorldGuard, Multiverse-Core]
+version: 3.5.1
+softdepend: [ BountyHunters, CombatLogX, CombatTagPlus, Factions, LeaderHeads, mcMMO, MVdWPlaceholderAPI, MyPet, PlaceholderAPI, PvPManager, SimpleClans, Vault, WorldGuard, Multiverse-Core, My_Worlds ]
 # Multiverse-Core added as soft-depend due to locations being null when Duels is loaded first.
 # Add any world management plugins to softdepend list if arena doesn't load properly in the generated world.
 api-version: 1.14
 
-author: Realized, DraimGooSe
-website: https://www.spigotmc.org/resources/duels.20171/
+author: Realized, DUMBO, DraimGooSe
+website: https://www.spigotmc.org/resources/duelsoptimised.114595/
 description: An ultimate solution to server owners wanting to create a duel system.
 
 commands:
-   duel:
-     description: Send, accept, or deny a duel request.
-     aliases: [1v1]
-   queue:
+  duel:
+    description: Send, accept, or deny a duel request.
+    aliases: [ 1v1 ]
+  queue:
     description: Join or leave a queue.
-    aliases: [q]
-   spectate:
-     description: Spectate a duel.
-     aliases: [spec]
-   duels:
-     description: Administrative command of Duels.
-     aliases: [ds]
+    aliases: [ q ]
+  spectate:
+    description: Spectate a duel.
+    aliases: [ spec ]
+  duels:
+    description: Administrative command of Duels.
+    aliases: [ ds ]
 
 permissions:
   duels.*:
@@ -46,3 +46,5 @@ permissions:
       duels.top: true
   duels.duel:
     default: true
+
+folia-supported: true

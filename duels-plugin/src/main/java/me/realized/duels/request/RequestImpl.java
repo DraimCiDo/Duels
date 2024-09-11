@@ -1,6 +1,5 @@
 package me.realized.duels.request;
 
-import java.util.UUID;
 import lombok.Getter;
 import me.realized.duels.api.arena.Arena;
 import me.realized.duels.api.kit.Kit;
@@ -8,6 +7,8 @@ import me.realized.duels.api.request.Request;
 import me.realized.duels.setting.Settings;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
 
 public class RequestImpl implements Request {
 

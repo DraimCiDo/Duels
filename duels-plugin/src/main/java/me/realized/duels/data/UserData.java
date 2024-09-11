@@ -22,8 +22,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class UserData implements User {
 
-    private static final String ERROR_USER_SAVE = "An error occured while saving userdata of %s!";
-
+    private static transient final String ERROR_USER_SAVE = "An error occured while saving userdata of %s!";
+    transient File folder;
+    transient int defaultRating;
+    transient int matchesToDisplay;
     @Getter
     private UUID uuid;
     @Getter
@@ -34,18 +36,13 @@ public class UserData implements User {
     @Getter
     private volatile int losses;
     private boolean requests = true;
-
     private ConcurrentHashMap<String, Integer> rating;
-    private final List<MatchData> matches = new ArrayList<>();
+    private List<MatchData> matches = new ArrayList<>();
 
-    transient File folder;
-    transient int defaultRating;
-    transient int matchesToDisplay;
+    private UserData() {
+    }
 
-    private UserData() {}
-
-    public UserData(final File folder, final int defaultRating,
-                    final int matchesToDisplay, final Player player) {
+    public UserData(final File folder, final int defaultRating, final int matchesToDisplay, final Player player) {
         this.folder = folder;
         this.defaultRating = defaultRating;
         this.matchesToDisplay = matchesToDisplay;
@@ -124,8 +121,7 @@ public class UserData implements User {
     }
 
     private int getRatingUnsafe(final Kit kit) {
-        return this.rating != null ? this.rating.getOrDefault(kit == null ? "-" :
-                kit.getName(), defaultRating) : defaultRating;
+        return this.rating != null ? this.rating.getOrDefault(kit == null ? "-" : kit.getName(), defaultRating) : defaultRating;
     }
 
     public void setRating(final Kit kit, final int rating) {
@@ -167,8 +163,7 @@ public class UserData implements User {
             return;
         }
 
-        final List<MatchData> division = Lists.newArrayList(matches.subList(matches.size() -
-                matchesToDisplay, matches.size()));
+        final List<MatchData> division = Lists.newArrayList(matches.subList(matches.size() - matchesToDisplay, matches.size()));
         matches.clear();
         matches.addAll(division);
     }
@@ -193,13 +188,13 @@ public class UserData implements User {
     @Override
     public String toString() {
         return "UserData{" +
-            "uuid=" + uuid +
-            ", name='" + name + '\'' +
-            ", wins=" + wins +
-            ", losses=" + losses +
-            ", requests=" + requests +
-            ", matches=" + matches +
-            ", rating=" + rating +
-            '}';
+                "uuid=" + uuid +
+                ", name='" + name + '\'' +
+                ", wins=" + wins +
+                ", losses=" + losses +
+                ", requests=" + requests +
+                ", matches=" + matches +
+                ", rating=" + rating +
+                '}';
     }
 }

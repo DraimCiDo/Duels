@@ -11,8 +11,7 @@ import java.util.Arrays;
 public class SavekitCommand extends BaseCommand {
 
     public SavekitCommand(final DuelsPlugin plugin) {
-        super(plugin, "savekit", "savekit [name]",
-                "Saves a kit with given name.", 2, true);
+        super(plugin, "savekit", "savekit [name]", "Saves a kit with given name.", 2, true);
     }
 
     @Override

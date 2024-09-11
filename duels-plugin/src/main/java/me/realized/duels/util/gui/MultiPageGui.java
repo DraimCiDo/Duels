@@ -37,8 +37,7 @@ public class MultiPageGui<P extends JavaPlugin> extends AbstractGui<P> {
     @Setter
     private ItemStack emptyIndicator;
 
-    public MultiPageGui(final P plugin, final String title, final int rows,
-                        final Collection<? extends Button<P>> buttons) {
+    public MultiPageGui(final P plugin, final String title, final int rows, final Collection<? extends Button<P>> buttons) {
         super(plugin);
         if (title == null || title.isEmpty()) {
             throw new IllegalArgumentException("title cannot be null or empty");
@@ -126,9 +125,9 @@ public class MultiPageGui<P extends JavaPlugin> extends AbstractGui<P> {
 
     private PageNode createPage(final int page, final int total) {
         return new PageNode(InventoryBuilder
-            .of(title + " (" + page + "/" + total + ")", size)
-            .fillRange(prevPageSlot, nextPageSlot + 1, getSpaceFiller())
-            .build());
+                .of(title + " (" + page + "/" + total + ")", size)
+                .fillRange(prevPageSlot, nextPageSlot + 1, getSpaceFiller())
+                .build());
     }
 
     private ItemStack getSpaceFiller() {

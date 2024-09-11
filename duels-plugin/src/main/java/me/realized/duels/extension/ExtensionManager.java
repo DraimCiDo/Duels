@@ -1,9 +1,5 @@
 package me.realized.duels.extension;
 
-import java.io.File;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
 import me.realized.duels.DuelsPlugin;
 import me.realized.duels.api.Duels;
 import me.realized.duels.api.extension.DuelsExtension;
@@ -11,6 +7,11 @@ import me.realized.duels.util.Loadable;
 import me.realized.duels.util.Log;
 import me.realized.duels.util.NumberUtil;
 import org.bukkit.Bukkit;
+
+import java.io.File;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ExtensionManager implements Loadable {
 
@@ -20,7 +21,8 @@ public class ExtensionManager implements Loadable {
         try {
             INIT_EXTENSION = DuelsExtension.class.getDeclaredMethod("init", Duels.class, String.class, File.class, File.class);
             INIT_EXTENSION.setAccessible(true);
-        } catch (NoSuchMethodException ignored) {}
+        } catch (NoSuchMethodException ignored) {
+        }
     }
 
     private final Map<String, DuelsExtension> extensions = new HashMap<>();

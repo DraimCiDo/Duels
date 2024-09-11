@@ -9,8 +9,8 @@ import org.yaml.snakeyaml.representer.Representer;
 
 public final class YamlUtil {
 
-    private static final Yaml BUKKIT_YAML;
-    private static final Yaml YAML;
+    private static transient final Yaml BUKKIT_YAML;
+    private static transient final Yaml YAML;
 
     static {
         final DumperOptions options = new DumperOptions();
@@ -20,6 +20,9 @@ public final class YamlUtil {
         yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         BUKKIT_YAML = new Yaml(new YamlBukkitConstructor(), yamlRepresenter, options);
         YAML = new Yaml(options);
+    }
+
+    private YamlUtil() {
     }
 
     public static String yamlDump(final Object object) {
@@ -49,10 +52,7 @@ public final class YamlUtil {
     private static class YamlBukkitConstructor extends YamlConstructor {
 
         public YamlBukkitConstructor() {
-            this.yamlConstructors.put(new Tag(Tag.PREFIX + "org.bukkit.inventory.ItemStack"),
-                    yamlConstructors.get(Tag.MAP));
+            this.yamlConstructors.put(new Tag(Tag.PREFIX + "org.bukkit.inventory.ItemStack"), yamlConstructors.get(Tag.MAP));
         }
     }
-
-    private YamlUtil() {}
 }

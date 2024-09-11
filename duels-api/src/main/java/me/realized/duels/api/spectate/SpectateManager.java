@@ -37,14 +37,14 @@ public interface SpectateManager {
 
     /**
      * Attempts to put the player in spectator mode and teleports player to target player in match.
-     *
+     * <p>
      * The method will return a result other than Result.SUCCESS if:
      * - Player is already in spectator mode
      * - Player is in a queue
      * - Player is in a match
      * - Target is not in a match
      * - {@link SpectateStartEvent} is cancelled
-     *
+     * <p>
      * Note: Calls {@link SpectateStartEvent} before player is turned into spectator mode.
      *
      * @param player Player to put in spectator mode. Should not be null!
@@ -57,7 +57,7 @@ public interface SpectateManager {
 
     /**
      * Puts a player out of spectator mode.
-     *
+     * <p>
      * Note: Calls {@link SpectateEndEvent} after player stops spectating.
      *
      * @param player Player to stop spectating. Should not be null!
@@ -82,7 +82,7 @@ public interface SpectateManager {
         IN_MATCH,
         TARGET_NOT_IN_MATCH,
         EVENT_CANCELLED,
-        SUCCESS
+        SUCCESS;
 
     }
 }

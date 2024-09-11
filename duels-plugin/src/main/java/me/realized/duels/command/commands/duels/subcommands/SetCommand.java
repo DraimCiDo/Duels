@@ -16,14 +16,12 @@ import java.util.List;
 public class SetCommand extends BaseCommand {
 
     public SetCommand(final DuelsPlugin plugin) {
-        super(plugin, "set", "set [name] [1:2]",
-                "Sets the teleport position of an arena.", 3, true);
+        super(plugin, "set", "set [name] [1:2]", "Sets the teleport position of an arena.", 3, true);
     }
 
     @Override
     protected void execute(final CommandSender sender, final String label, final String[] args) {
-        final String name = StringUtil.join(args, " ", 1, args.length - 1)
-                .replace("-", " ");
+        final String name = StringUtil.join(args, " ", 1, args.length - 1).replace("-", " ");
         final ArenaImpl arena = arenaManager.get(name);
 
         if (arena == null) {
@@ -41,13 +39,11 @@ public class SetCommand extends BaseCommand {
         final Player player = (Player) sender;
         final Location location = player.getLocation().clone();
         arena.setPosition(player, pos, location);
-        lang.sendMessage(sender, "COMMAND.duels.set", "position", pos, "name",
-                name, "location", StringUtil.parse(location));
+        lang.sendMessage(sender, "COMMAND.duels.set", "position", pos, "name", name, "location", StringUtil.parse(location));
     }
 
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command command,
-                                      final String alias, final String[] args) {
+    public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
         if (args.length == 2) {
             return handleTabCompletion(args[1], arenaManager.getNames());
         }

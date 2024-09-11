@@ -4,9 +4,11 @@ import java.util.OptionalInt;
 
 public final class NumberUtil {
 
+    private NumberUtil() {
+    }
+
     /**
-     * Copy of {@link Integer#parseInt(String)} (String)} but returns an
-     * empty {@link OptionalInt} instead of throwing a {@link NumberFormatException}.
+     * Copy of {@link Integer#parseInt(String)} (String)} but returns an empty {@link OptionalInt} instead of throwing a {@link NumberFormatException}.
      *
      * @param s String to parse.
      * @return {@link OptionalInt} instance with parsed value inside or empty if string is invalid.
@@ -84,6 +86,4 @@ public final class NumberUtil {
         otherVersion = otherVersion.replace("-SNAPSHOT", "").replace(".", "");
         return NumberUtil.parseInt(version).orElse(0) < NumberUtil.parseInt(otherVersion).orElse(0);
     }
-
-    private NumberUtil() {}
 }

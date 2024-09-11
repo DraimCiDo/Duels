@@ -37,8 +37,7 @@ public class Lang extends AbstractConfiguration<DuelsPlugin> implements Reloadab
                 continue;
             }
 
-            // Fixes a weird occurrence with FileConfiguration#getKeys
-            // that an extra separator char is prepended when called after FileConfiguration#set
+            // Fixes a weird occurrence with FileConfiguration#getKeys that an extra separator char is prepended when called after FileConfiguration#set
             if (key.startsWith(".")) {
                 key = key.substring(1);
             }

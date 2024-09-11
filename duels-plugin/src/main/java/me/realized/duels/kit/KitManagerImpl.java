@@ -56,22 +56,22 @@ public class KitManagerImpl implements Loadable, KitManager {
 
     @Override
     public void handleLoad() throws IOException {
-        gui = new MultiPageGui<>(plugin, lang.getMessage("GUI.kit-selector.title"),
-                config.getKitSelectorRows(), kits.values());
+        System.out.println("Debug: Initializing KitManagerImpl...");
+
+        gui = new MultiPageGui<>(plugin, lang.getMessage("GUI.kit-selector.title"), config.getKitSelectorRows(), kits.values());
         gui.setSpaceFiller(Items.from(config.getKitSelectorFillerType(), config.getKitSelectorFillerData()));
-        gui.setPrevButton(ItemBuilder.of(Material.PAPER).name(
-                lang.getMessage("GUI.kit-selector.buttons.previous-page.name")).build());
-        gui.setNextButton(ItemBuilder.of(Material.PAPER).name(
-                lang.getMessage("GUI.kit-selector.buttons.next-page.name")).build());
-        gui.setEmptyIndicator(ItemBuilder.of(Material.PAPER).name(
-                lang.getMessage("GUI.kit-selector.buttons.empty.name")).build());
+        gui.setPrevButton(ItemBuilder.of(Material.PAPER).name(lang.getMessage("GUI.kit-selector.buttons.previous-page.name")).build());
+        gui.setNextButton(ItemBuilder.of(Material.PAPER).name(lang.getMessage("GUI.kit-selector.buttons.next-page.name")).build());
+        gui.setEmptyIndicator(ItemBuilder.of(Material.PAPER).name(lang.getMessage("GUI.kit-selector.buttons.empty.name")).build());
         plugin.getGuiListener().addGui(gui);
 
+        System.out.println("Debug: KitManagerImpl - GUI initialized");
+
         if (FileUtil.checkNonEmpty(file, true)) {
+            System.out.println("Debug: kits.json file is non-empty, loading kits...");
             try (final Reader reader = new InputStreamReader(new FileInputStream(file), Charsets.UTF_8)) {
-                final Map<String, KitData> data = JsonUtil.getObjectMapper().readValue(reader,
-                        new TypeReference<LinkedHashMap<String, KitData>>() {
-                        });
+                final Map<String, KitData> data = JsonUtil.getObjectMapper().readValue(reader, new TypeReference<LinkedHashMap<String, KitData>>() {
+                });
 
                 if (data != null) {
                     for (final Map.Entry<String, KitData> entry : data.entrySet()) {
@@ -79,39 +79,39 @@ public class KitManagerImpl implements Loadable, KitManager {
                             DuelsPlugin.sendMessage(String.format(ERROR_NOT_ALPHANUMERIC, entry.getKey()));
                             continue;
                         }
-
                         kits.put(entry.getKey(), entry.getValue().toKit(plugin));
                     }
                 }
             }
         }
 
+        System.out.println("Debug: Kits loaded - " + kits.size());
         DuelsPlugin.sendMessage(String.format(KITS_LOADED, kits.size()));
         gui.calculatePages();
     }
 
     @Override
     public void handleUnload() {
+        System.out.println("Debug: Unloading KitManagerImpl...");
         if (gui != null) {
             plugin.getGuiListener().removeGui(gui);
         }
-
         kits.clear();
     }
 
     void saveKits() {
+        System.out.println("Debug: Saving kits...");
         final Map<String, KitData> data = new LinkedHashMap<>();
-
         for (final Map.Entry<String, KitImpl> entry : kits.entrySet()) {
             data.put(entry.getKey(), KitData.fromKit(entry.getValue()));
         }
-
         try (final Writer writer = new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8)) {
             JsonUtil.getObjectWriter().writeValue(writer, data);
             writer.flush();
         } catch (IOException ex) {
             Log.error(this, ex.getMessage(), ex);
         }
+        System.out.println("Debug: Kits saved.");
     }
 
     @Nullable
@@ -180,11 +180,9 @@ public class KitManagerImpl implements Loadable, KitManager {
 
     public List<String> getNames(final boolean nokit) {
         final List<String> names = new ArrayList<>(kits.keySet());
-
         if (nokit) {
             names.add("-"); // Special case: Change the nokit rating
         }
-
         return names;
     }
 }

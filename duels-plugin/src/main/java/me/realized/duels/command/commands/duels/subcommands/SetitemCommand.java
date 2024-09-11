@@ -16,8 +16,7 @@ import java.util.List;
 public class SetitemCommand extends BaseCommand {
 
     public SetitemCommand(final DuelsPlugin plugin) {
-        super(plugin, "setitem", "setitem [name]",
-                "Sets the displayed item for selected kit.", 2, true);
+        super(plugin, "setitem", "setitem [name]", "Sets the displayed item for selected kit.", 2, true);
     }
 
     @Override
@@ -30,8 +29,7 @@ public class SetitemCommand extends BaseCommand {
             return;
         }
 
-        final String name = StringUtil.join(args, " ", 1, args.length)
-                .replace("-", " ");
+        final String name = StringUtil.join(args, " ", 1, args.length).replace("-", " ");
         final KitImpl kit = kitManager.get(name);
 
         if (kit == null) {
@@ -45,8 +43,7 @@ public class SetitemCommand extends BaseCommand {
     }
 
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command command,
-                                      final String alias, final String[] args) {
+    public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
         if (args.length == 2) {
             return handleTabCompletion(args[1], kitManager.getNames(false));
         }

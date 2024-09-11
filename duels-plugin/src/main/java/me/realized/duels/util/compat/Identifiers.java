@@ -9,7 +9,10 @@ import org.bukkit.persistence.PersistentDataType;
 
 public final class Identifiers {
 
-    private static final String DUELS_ITEM_IDENTIFIER = "DuelsKitContent";
+    private static transient final String DUELS_ITEM_IDENTIFIER = "DuelsKitContent";
+
+    private Identifiers() {
+    }
 
     public static ItemStack addIdentifier(final ItemStack item) {
         if (CompatUtil.isPre1_14()) {
@@ -46,6 +49,4 @@ public final class Identifiers {
         item.setItemMeta(meta);
         return item;
     }
-
-    private Identifiers() {}
 }

@@ -20,6 +20,7 @@ import me.realized.duels.util.inventory.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -32,11 +33,11 @@ public class ArenaImpl extends BaseButton implements Arena {
     @Getter
     private final String name;
     @Getter
-    private boolean disabled;
-    @Getter
     private final Set<KitImpl> kits = new HashSet<>();
     @Getter
     private final Map<Integer, Location> positions = new HashMap<>();
+    @Getter
+    private boolean disabled;
     @Getter
     private MatchImpl match;
     @Getter(value = AccessLevel.PACKAGE)
@@ -48,11 +49,10 @@ public class ArenaImpl extends BaseButton implements Arena {
 
     public ArenaImpl(final DuelsPlugin plugin, final String name, final boolean disabled) {
         super(plugin, ItemBuilder
-            .of(Items.EMPTY_MAP)
-            .name(plugin.getLang().getMessage("GUI.arena-selector.buttons.arena.name", "name", name))
-                .lore(plugin.getLang().getMessage("GUI.arena-selector.buttons.arena.lore-unavailable")
-                        .split("\n"))
-            .build()
+                .of(Items.EMPTY_MAP)
+                .name(plugin.getLang().getMessage("GUI.arena-selector.buttons.arena.name", "name", name))
+                .lore(plugin.getLang().getMessage("GUI.arena-selector.buttons.arena.lore-unavailable").split("\n"))
+                .build()
         );
         this.name = name;
         this.disabled = disabled;
@@ -63,8 +63,7 @@ public class ArenaImpl extends BaseButton implements Arena {
     }
 
     public void refreshGui(final boolean available) {
-        setLore(lang.getMessage("GUI.arena-selector.buttons.arena.lore-" +
-                (available ? "available" : "unavailable")).split("\n"));
+        setLore(lang.getMessage("GUI.arena-selector.buttons.arena.lore-" + (available ? "available" : "unavailable")).split("\n"));
         arenaManager.getGui().calculatePages();
     }
 
@@ -146,8 +145,7 @@ public class ArenaImpl extends BaseButton implements Arena {
         return !isDisabled() && !isUsed() && getPosition(1) != null && getPosition(2) != null;
     }
 
-    public MatchImpl startMatch(final KitImpl kit, final Map<UUID, List<ItemStack>> items, final int bet,
-                                final Queue source) {
+    public MatchImpl startMatch(final KitImpl kit, final Map<UUID, List<ItemStack>> items, final int bet, final Queue source) {
         this.match = new MatchImpl(this, kit, items, bet, source);
         refreshGui(false);
         return match;
@@ -161,6 +159,11 @@ public class ArenaImpl extends BaseButton implements Arena {
 
         final Queue source = match.getSource();
         match.setFinished();
+
+        if (config.isClearItemsAfterMatch()) {
+            match.droppedItems.forEach(Entity::remove);
+        }
+
         match = null;
 
         if (source != null) {
@@ -179,7 +182,7 @@ public class ArenaImpl extends BaseButton implements Arena {
         }
 
         this.countdown = new Countdown(plugin, this, kit, info, messages, config.getTitles());
-        countdown.runTaskTimer(plugin, 0L, 20L);
+        countdown.startCountdown(0L, 20L);
     }
 
     boolean isCounting() {
@@ -217,8 +220,7 @@ public class ArenaImpl extends BaseButton implements Arena {
     }
 
     public Player getOpponent(final Player player) {
-        return isUsed() ? match.getAllPlayers().stream().filter(other ->
-                !player.equals(other)).findFirst().orElse(null) : null;
+        return isUsed() ? match.getAllPlayers().stream().filter(other -> !player.equals(other)).findFirst().orElse(null) : null;
     }
 
     public Set<Player> getPlayers() {
@@ -228,9 +230,9 @@ public class ArenaImpl extends BaseButton implements Arena {
     public void broadcast(final String message) {
         final List<Player> receivers = Lists.newArrayList(getPlayers());
         spectateManager.getSpectatorsImpl(this)
-            .stream()
-            .map(spectator -> Bukkit.getPlayer(spectator.getUuid()))
-            .forEach(receivers::add);
+                .stream()
+                .map(spectator -> Bukkit.getPlayer(spectator.getUuid()))
+                .forEach(receivers::add);
         receivers.forEach(player -> player.sendMessage(message));
     }
 
@@ -241,12 +243,10 @@ public class ArenaImpl extends BaseButton implements Arena {
         }
 
         final Settings settings = settingManager.getSafely(player);
-        final String kitName = settings.getKit() != null ? settings.getKit().getName() :
-                lang.getMessage("GENERAL.none");
+        final String kitName = settings.getKit() != null ? settings.getKit().getName() : lang.getMessage("GENERAL.none");
 
         if (!arenaManager.isSelectable(settings.getKit(), this)) {
-            lang.sendMessage(player, "ERROR.setting.arena-not-applicable",
-                    "kit", kitName, "arena", name);
+            lang.sendMessage(player, "ERROR.setting.arena-not-applicable", "kit", kitName, "arena", name);
             return;
         }
 
@@ -256,8 +256,12 @@ public class ArenaImpl extends BaseButton implements Arena {
 
     @Override
     public boolean equals(final Object other) {
-        if (this == other) { return true; }
-        if (other == null || getClass() != other.getClass()) { return false; }
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
         final ArenaImpl arena = (ArenaImpl) other;
         return Objects.equals(name, arena.name);
     }

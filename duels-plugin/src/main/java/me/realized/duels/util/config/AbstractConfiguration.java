@@ -53,7 +53,8 @@ public abstract class AbstractConfiguration<P extends JavaPlugin> implements Loa
     }
 
     @Override
-    public void handleUnload() {}
+    public void handleUnload() {
+    }
 
     protected abstract void loadValues(final FileConfiguration configuration) throws Exception;
 
@@ -61,9 +62,7 @@ public abstract class AbstractConfiguration<P extends JavaPlugin> implements Loa
         final InputStream stream = plugin.getClass().getResourceAsStream("/" + name);
 
         if (stream == null) {
-            throw new IllegalStateException(plugin.getName() +
-                    "'s jar file was replaced, but a reload was called! " +
-                    "Please restart your server instead when updating this plugin.");
+            throw new IllegalStateException(plugin.getName() + "'s jar file was replaced, but a reload was called! Please restart your server instead when updating this plugin.");
         }
 
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, Charsets.UTF_8))) {
@@ -107,8 +106,7 @@ public abstract class AbstractConfiguration<P extends JavaPlugin> implements Loa
         plugin.saveResource(name, true);
 
         // Loads comments of the new configuration file
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),
-                Charsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), Charsets.UTF_8))) {
             final Multimap<String, List<String>> comments = LinkedListMultimap.create();
             final List<String> currentComments = new ArrayList<>();
 
@@ -128,13 +126,13 @@ public abstract class AbstractConfiguration<P extends JavaPlugin> implements Loa
             final FileConfigurationOptions options = configuration.options();
             options.header(null);
 
-            final Method method = ReflectionUtil.getDeclaredMethodUnsafe(FileConfigurationOptions.class,
-                    "parseComments", Boolean.TYPE);
+            final Method method = ReflectionUtil.getDeclaredMethodUnsafe(FileConfigurationOptions.class, "parseComments", Boolean.TYPE);
 
             if (method != null) {
                 try {
                     method.invoke(options, false);
-                } catch (IllegalAccessException | InvocationTargetException ignored) {}
+                } catch (IllegalAccessException | InvocationTargetException ignored) {
+                }
             }
 
             // Transfer values from the old configuration
@@ -142,16 +140,14 @@ public abstract class AbstractConfiguration<P extends JavaPlugin> implements Loa
                 final String key = entry.getKey();
                 final Object value = configuration.get(key);
 
-                if ((value != null && !(value instanceof MemorySection)) || transferredSections().stream()
-                        .anyMatch(section -> key.startsWith(section + "."))) {
+                if ((value != null && !(value instanceof MemorySection)) || transferredSections().stream().anyMatch(section -> key.startsWith(section + "."))) {
                     configuration.set(key, entry.getValue());
                 }
             }
 
             final List<String> commentlessData = Lists.newArrayList(configuration.saveToString().split("\n"));
 
-            try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file),
-                    Charsets.UTF_8))) {
+            try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), Charsets.UTF_8))) {
                 for (final String data : commentlessData) {
                     matcher = KEY_PATTERN.matcher(data);
 

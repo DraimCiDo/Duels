@@ -20,6 +20,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import space.arim.morepaperlib.scheduling.ScheduledTask;
 
 import java.io.*;
 import java.util.*;
@@ -29,8 +30,7 @@ import java.util.stream.Collectors;
 
 public class UserManagerImpl implements Loadable, Listener, UserManager {
 
-    private static final String ADMIN_UPDATE_MESSAGE =
-            "&9[Duels] &bDuels &fv%s &7is now available for download! Download at: &c%s";
+    private static final String ADMIN_UPDATE_MESSAGE = "&9[Duels] &bDuels &fv%s &7is now available for download! Download at: &c%s";
 
     private final DuelsPlugin plugin;
     private final Config config;
@@ -38,7 +38,7 @@ public class UserManagerImpl implements Loadable, Listener, UserManager {
     private final File folder;
     private final Map<UUID, UserData> users = new ConcurrentHashMap<>();
     private final Map<String, UUID> names = new ConcurrentHashMap<>();
-
+    private final Map<Kit, TopEntry> topRatings = new ConcurrentHashMap<>();
     private volatile int defaultRating;
     private volatile int matchesToDisplay;
     @Getter
@@ -49,9 +49,7 @@ public class UserManagerImpl implements Loadable, Listener, UserManager {
     private volatile TopEntry losses;
     @Getter
     private volatile TopEntry noKit;
-    private final Map<Kit, TopEntry> topRatings = new ConcurrentHashMap<>();
-
-    private int topTask;
+    private ScheduledTask topTask;
 
     public UserManagerImpl(final DuelsPlugin plugin) {
         this.plugin = plugin;
@@ -78,7 +76,7 @@ public class UserManagerImpl implements Loadable, Listener, UserManager {
         plugin.doAsync(() -> {
             final File[] files = folder.listFiles();
 
-            if (files != null) {
+            if (files != null && files.length > 0) {
                 for (final File file : files) {
                     final String fileName = file.getName();
 
@@ -128,18 +126,15 @@ public class UserManagerImpl implements Loadable, Listener, UserManager {
 
                 TopEntry top;
 
-                if ((top = get(config.getTopUpdateInterval(), wins, User::getWins, config.getTopWinsType(),
-                        config.getTopWinsIdentifier())) != null) {
+                if ((top = get(config.getTopUpdateInterval(), wins, User::getWins, config.getTopWinsType(), config.getTopWinsIdentifier())) != null) {
                     wins = top;
                 }
 
-                if ((top = get(config.getTopUpdateInterval(), losses, User::getLosses, config.getTopLossesType(),
-                        config.getTopLossesIdentifier())) != null) {
+                if ((top = get(config.getTopUpdateInterval(), losses, User::getLosses, config.getTopLossesType(), config.getTopLossesIdentifier())) != null) {
                     losses = top;
                 }
 
-                if ((top = get(config.getTopUpdateInterval(), noKit, User::getRating, config.getTopNoKitType(),
-                        config.getTopNoKitIdentifier())) != null) {
+                if ((top = get(config.getTopUpdateInterval(), noKit, User::getRating, config.getTopNoKitType(), config.getTopNoKitIdentifier())) != null) {
                     noKit = top;
                 }
 
@@ -148,14 +143,13 @@ public class UserManagerImpl implements Loadable, Listener, UserManager {
                 for (final Kit kit : kits) {
                     final TopEntry entry = topRatings.get(kit);
 
-                    if ((top = get(config.getTopUpdateInterval(), entry, user -> user.getRating(kit),
-                            config.getTopKitType().replace("%kit%", kit.getName()),
-                        config.getTopKitIdentifier())) != null) {
+                    if ((top = get(config.getTopUpdateInterval(), entry, user -> user.getRating(kit), config.getTopKitType().replace("%kit%", kit.getName()),
+                            config.getTopKitIdentifier())) != null) {
                         topRatings.put(kit, top);
                     }
                 }
             });
-        }, 20L * 5, 20L).getTaskId();
+        }, 20L * 5, 20L);
     }
 
     @Override
@@ -216,12 +210,10 @@ public class UserManagerImpl implements Loadable, Listener, UserManager {
     }
 
     public String getNextUpdate(final long creation) {
-        return DateUtil.format((creation + config.getTopUpdateInterval() -
-                System.currentTimeMillis()) / 1000L);
+        return DateUtil.format((creation + config.getTopUpdateInterval() - System.currentTimeMillis()) / 1000L);
     }
 
-    private TopEntry get(final long interval, final TopEntry previous, final Function<User, Integer> function,
-                         final String type, final String identifier) {
+    private TopEntry get(final long interval, final TopEntry previous, final Function<User, Integer> function, final String type, final String identifier) {
         if (previous == null || System.currentTimeMillis() - previous.getCreation() >= interval) {
             return new TopEntry(type, identifier, subList(sorted(function)));
         }
@@ -235,9 +227,9 @@ public class UserManagerImpl implements Loadable, Listener, UserManager {
 
     private List<TopData> sorted(final Function<User, Integer> function) {
         return users.values().stream()
-            .map(data -> new TopData(data.getUuid(), data.getName(), function.apply(data)))
-            .sorted(Comparator.reverseOrder())
-            .collect(Collectors.toList());
+                .map(data -> new TopData(data.getUuid(), data.getName(), function.apply(data)))
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
     }
 
     private UserData tryLoad(final Player player) {
@@ -288,8 +280,7 @@ public class UserManagerImpl implements Loadable, Listener, UserManager {
 
         plugin.doSyncAfter(() -> {
             if (plugin.isUpdateAvailable() && (player.isOp() || player.hasPermission(Permissions.ADMIN))) {
-                player.sendMessage(StringUtil.color(String.format(ADMIN_UPDATE_MESSAGE,
-                        plugin.getNewVersion(), plugin.getDescription().getWebsite())));
+                player.sendMessage(StringUtil.color(String.format(ADMIN_UPDATE_MESSAGE, plugin.getNewVersion(), plugin.getDescription().getWebsite())));
             }
         }, 5L);
 

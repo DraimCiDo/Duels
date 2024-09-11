@@ -1,11 +1,5 @@
 package me.realized.duels.gui.betting;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
 import me.realized.duels.DuelsPlugin;
 import me.realized.duels.duel.DuelManager;
 import me.realized.duels.gui.betting.buttons.CancelButton;
@@ -30,13 +24,15 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
+import space.arim.morepaperlib.scheduling.ScheduledTask;
+
+import java.util.*;
 
 public class BettingGui extends AbstractGui<DuelsPlugin> {
 
     private final Section[] sections = {
-        new Section(9, 13, 4),
-        new Section(14, 18, 4)
+            new Section(9, 13, 4),
+            new Section(14, 18, 4)
     };
     private final GuiListener<DuelsPlugin> guiListener;
     private final DuelManager duelManager;
@@ -85,7 +81,7 @@ public class BettingGui extends AbstractGui<DuelsPlugin> {
         }
 
         if (firstReady && secondReady) {
-            new WaitTask().runTaskTimer(plugin, 10L, 20L);
+            startWaitTask();
         }
     }
 
@@ -193,11 +189,11 @@ public class BettingGui extends AbstractGui<DuelsPlugin> {
         final Player other = Bukkit.getPlayer(first.equals(player.getUniqueId()) ? second : first);
 
         if (other != null) {
-            plugin.doSync(() -> {
+            DuelsPlugin.getMorePaperLib().scheduling().entitySpecificScheduler(other).run(() -> {
                 if (inventory.getViewers().contains(other)) {
                     other.closeInventory();
                 }
-            });
+            }, null);
         }
     }
 
@@ -250,16 +246,25 @@ public class BettingGui extends AbstractGui<DuelsPlugin> {
         }
     }
 
-    private class WaitTask extends BukkitRunnable {
+    private void startWaitTask() {
+        new WaitTask().startTask();
+    }
+
+    private class WaitTask implements Runnable {
 
         private static final int SLOT_START = 13;
 
+        private ScheduledTask task;
         private int counter;
+
+        public void startTask() {
+            task = DuelsPlugin.getMorePaperLib().scheduling().globalRegionalScheduler().runAtFixedRate(this, 10L, 20L);
+        }
 
         @Override
         public void run() {
             if (cancelWait) {
-                cancel();
+                task.cancel();
                 return;
             }
 
@@ -279,8 +284,7 @@ public class BettingGui extends AbstractGui<DuelsPlugin> {
                 counter++;
                 return;
             }
-
-            cancel();
+            task.cancel();
             waitDone = true;
 
             final Player first = Bukkit.getPlayer(BettingGui.this.first);
@@ -290,8 +294,8 @@ public class BettingGui extends AbstractGui<DuelsPlugin> {
                 return;
             }
 
-            first.closeInventory();
-            second.closeInventory();
+            DuelsPlugin.getMorePaperLib().scheduling().entitySpecificScheduler(first).run(first::closeInventory, null);
+            DuelsPlugin.getMorePaperLib().scheduling().entitySpecificScheduler(second).run(second::closeInventory, null);
 
             final Map<UUID, List<ItemStack>> items = new HashMap<>();
             items.put(first.getUniqueId(), getSection(first).collect());

@@ -57,8 +57,7 @@ public class QueueSignImpl implements QueueSign {
     }
 
     private String replace(final String line, final int inQueue, final long inMatch) {
-        return StringUtil.color(line.replace("%in_queue%", String.valueOf(inQueue))
-                .replace("%in_match%", String.valueOf(inMatch)));
+        return StringUtil.color(line.replace("%in_queue%", String.valueOf(inQueue)).replace("%in_match%", String.valueOf(inMatch)));
     }
 
     public void update() {
@@ -95,8 +94,12 @@ public class QueueSignImpl implements QueueSign {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) { return true; }
-        if (o == null || getClass() != o.getClass()) { return false; }
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         final QueueSignImpl queueSign = (QueueSignImpl) o;
         return Objects.equals(queue, queueSign.getQueue());
     }

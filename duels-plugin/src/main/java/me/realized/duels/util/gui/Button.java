@@ -39,8 +39,7 @@ public class Button<P extends JavaPlugin> {
     }
 
     protected void setDisplayName(final String name) {
-        editMeta(meta ->
-                meta.setDisplayName(StringUtil.color(name)));
+        editMeta(meta -> meta.setDisplayName(StringUtil.color(name)));
     }
 
     protected void setLore(final List<String> lore) {
@@ -52,17 +51,15 @@ public class Button<P extends JavaPlugin> {
     }
 
     protected void setOwner(final Player player) {
-        if (Items.equals(displayed, Items.HEAD)) {
+        if (Items.itemEquals(displayed, Items.HEAD)) {
             editMeta(meta -> Skulls.setProfile((SkullMeta) meta, player));
         }
     }
 
     protected void setGlow(final boolean glow) {
-        // Normal golden apples do not have enchantment glint even with an
-        // enchantment applied, so we change the item type.
+        // Normal golden apples do not have enchantment glint even with an enchantment applied, so we change the item type.
         if (displayed.getType().name().endsWith("GOLDEN_APPLE")) {
-            final ItemStack item = glow ? Items.ENCHANTED_GOLDEN_APPLE.clone() :
-                    ItemBuilder.of(Material.GOLDEN_APPLE).build();
+            final ItemStack item = glow ? Items.ENCHANTED_GOLDEN_APPLE.clone() : ItemBuilder.of(Material.GOLDEN_APPLE).build();
             item.setItemMeta(getDisplayed().getItemMeta());
             setDisplayed(item);
             return;
@@ -86,7 +83,9 @@ public class Button<P extends JavaPlugin> {
     }
 
 
-    public void update(final Player player) {}
+    public void update(final Player player) {
+    }
 
-    public void onClick(final Player player) {}
+    public void onClick(final Player player) {
+    }
 }

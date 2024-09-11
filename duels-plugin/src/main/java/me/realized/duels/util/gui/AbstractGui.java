@@ -33,7 +33,8 @@ public abstract class AbstractGui<P extends JavaPlugin> {
 
     public abstract void on(final Player player, final Inventory top, final InventoryClickEvent event);
 
-    public void on(final Player player, final Inventory inventory, final InventoryCloseEvent event) {}
+    public void on(final Player player, final Inventory inventory, final InventoryCloseEvent event) {
+    }
 
     public void on(final Player player, final Set<Integer> rawSlots, final InventoryDragEvent event) {
         event.setCancelled(true);
@@ -49,8 +50,7 @@ public abstract class AbstractGui<P extends JavaPlugin> {
         inventory.setItem(slot, button.getDisplayed());
     }
 
-    public void set(final Inventory inventory, final int from, final int to, final int height,
-                    final Button<P> button) {
+    public void set(final Inventory inventory, final int from, final int to, final int height, final Button<P> button) {
         Slots.run(from, to, height, slot -> set(inventory, slot, button));
     }
 
@@ -75,8 +75,7 @@ public abstract class AbstractGui<P extends JavaPlugin> {
         }
 
         button.update(player);
-        cached.entrySet().stream().filter(entry -> entry.getValue().equals(button)).findFirst().ifPresent(entry ->
-                inventory.setItem(entry.getKey(), button.getDisplayed()));
+        cached.entrySet().stream().filter(entry -> entry.getValue().equals(button)).findFirst().ifPresent(entry -> inventory.setItem(entry.getKey(), button.getDisplayed()));
     }
 
     public void update(final Player player) {

@@ -18,10 +18,10 @@ public class MatchData implements MatchInfo {
     @Getter
     private double health;
 
-    private MatchData() {}
+    private MatchData() {
+    }
 
-    public MatchData(final String winner, final String loser, final String kit, final long time,
-                     final long duration, final double health) {
+    public MatchData(final String winner, final String loser, final String kit, final long time, final long duration, final double health) {
         this.winner = winner;
         this.loser = loser;
         this.kit = kit;
@@ -38,11 +38,11 @@ public class MatchData implements MatchInfo {
     @Override
     public String toString() {
         return "MatchData{" +
-            "winner='" + winner + '\'' +
-            ", loser='" + loser + '\'' +
-            ", time=" + time +
-            ", duration=" + duration +
-            ", health=" + health +
-            '}';
+                "winner='" + winner + '\'' +
+                ", loser='" + loser + '\'' +
+                ", time=" + time +
+                ", duration=" + duration +
+                ", health=" + health +
+                '}';
     }
 }

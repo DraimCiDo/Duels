@@ -26,13 +26,13 @@ public class BettingManager implements Loadable, Listener {
         if (vaultHook == null) {
             DuelsPlugin.sendMessage("&bVault was not found! Money betting feature will be automatically disabled.");
         } else if (vaultHook.getEconomy() == null) {
-            DuelsPlugin.sendMessage("&bEconomy plugin supporting Vault was not found! " +
-                    "Money betting feature will be automatically disabled.");
+            DuelsPlugin.sendMessage("&bEconomy plugin supporting Vault was not found! Money betting feature will be automatically disabled.");
         }
     }
 
     @Override
-    public void handleUnload() {}
+    public void handleUnload() {
+    }
 
     public void open(final Settings settings, final Player first, final Player second) {
         final BettingGui gui = new BettingGui(plugin, settings, first, second);

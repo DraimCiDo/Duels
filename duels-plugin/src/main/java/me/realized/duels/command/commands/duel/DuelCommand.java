@@ -34,13 +34,13 @@ public class DuelCommand extends BaseCommand {
     public DuelCommand(final DuelsPlugin plugin) {
         super(plugin, "duel", Permissions.DUEL, true);
         child(
-            new AcceptCommand(plugin),
-            new DenyCommand(plugin),
-            new StatsCommand(plugin),
-            new ToggleCommand(plugin),
-            new TopCommand(plugin),
-            new InventoryCommand(plugin),
-            new VersionCommand(plugin)
+                new AcceptCommand(plugin),
+                new DenyCommand(plugin),
+                new StatsCommand(plugin),
+                new ToggleCommand(plugin),
+                new TopCommand(plugin),
+                new InventoryCommand(plugin),
+                new VersionCommand(plugin)
         );
         this.combatTagPlus = hookManager.getHook(CombatTagPlusHook.class);
         this.pvpManager = hookManager.getHook(PvPManagerHook.class);
@@ -83,8 +83,8 @@ public class DuelCommand extends BaseCommand {
         }
 
         if ((combatTagPlus != null && combatTagPlus.isTagged(player))
-            || (pvpManager != null && pvpManager.isTagged(player))
-            || (combatLogX != null && combatLogX.isTagged(player))) {
+                || (pvpManager != null && pvpManager.isTagged(player))
+                || (combatLogX != null && combatLogX.isTagged(player))) {
             lang.sendMessage(sender, "ERROR.duel.is-tagged");
             return true;
         }
@@ -141,8 +141,7 @@ public class DuelCommand extends BaseCommand {
         }
 
         if (spectateManager.isSpectating(target)) {
-            lang.sendMessage(sender, "ERROR.spectate.already-spectating.target",
-                    "name", target.getName());
+            lang.sendMessage(sender, "ERROR.spectate.already-spectating.target", "name", target.getName());
             return true;
         }
 
@@ -159,16 +158,13 @@ public class DuelCommand extends BaseCommand {
             final int amount = NumberUtil.parseInt(args[1]).orElse(0);
 
             if (amount > 0 && config.isMoneyBettingEnabled()) {
-                if (config.isMoneyBettingUsePermission() && !player.hasPermission(Permissions.MONEY_BETTING) &&
-                        !player.hasPermission(Permissions.SETTING_ALL)) {
-                    lang.sendMessage(player, "ERROR.no-permission", "permission",
-                            Permissions.MONEY_BETTING);
+                if (config.isMoneyBettingUsePermission() && !player.hasPermission(Permissions.MONEY_BETTING) && !player.hasPermission(Permissions.SETTING_ALL)) {
+                    lang.sendMessage(player, "ERROR.no-permission", "permission", Permissions.MONEY_BETTING);
                     return true;
                 }
 
                 if (vault == null || vault.getEconomy() == null) {
-                    lang.sendMessage(sender, "ERROR.setting.disabled-option", "option",
-                            lang.getMessage("GENERAL.betting"));
+                    lang.sendMessage(sender, "ERROR.setting.disabled-option", "option", lang.getMessage("GENERAL.betting"));
                     return true;
                 }
 
@@ -183,15 +179,12 @@ public class DuelCommand extends BaseCommand {
             if (args.length > 2) {
                 if (args[2].equalsIgnoreCase("true")) {
                     if (!config.isItemBettingEnabled()) {
-                        lang.sendMessage(player, "ERROR.setting.disabled-option", "option",
-                                lang.getMessage("GENERAL.item-betting"));
+                        lang.sendMessage(player, "ERROR.setting.disabled-option", "option", lang.getMessage("GENERAL.item-betting"));
                         return true;
                     }
 
-                    if (config.isItemBettingUsePermission() && !player.hasPermission(Permissions.ITEM_BETTING) &&
-                            !player.hasPermission(Permissions.SETTING_ALL)) {
-                        lang.sendMessage(player, "ERROR.no-permission", "permission",
-                                Permissions.ITEM_BETTING);
+                    if (config.isItemBettingUsePermission() && !player.hasPermission(Permissions.ITEM_BETTING) && !player.hasPermission(Permissions.SETTING_ALL)) {
+                        lang.sendMessage(player, "ERROR.no-permission", "permission", Permissions.ITEM_BETTING);
                         return true;
                     }
 
@@ -201,22 +194,18 @@ public class DuelCommand extends BaseCommand {
                 if (args.length > 3) {
                     if (args[3].equals("-")) {
                         if (!config.isOwnInventoryEnabled()) {
-                            lang.sendMessage(player, "ERROR.setting.disabled-option", "option",
-                                    lang.getMessage("GENERAL.own-inventory"));
+                            lang.sendMessage(player, "ERROR.setting.disabled-option", "option", lang.getMessage("GENERAL.own-inventory"));
                             return true;
                         }
 
-                        if (config.isOwnInventoryUsePermission() && !player.hasPermission(Permissions.OWN_INVENTORY) &&
-                                !player.hasPermission(Permissions.SETTING_ALL)) {
-                            lang.sendMessage(player, "ERROR.no-permission", "permission",
-                                    Permissions.OWN_INVENTORY);
+                        if (config.isOwnInventoryUsePermission() && !player.hasPermission(Permissions.OWN_INVENTORY) && !player.hasPermission(Permissions.SETTING_ALL)) {
+                            lang.sendMessage(player, "ERROR.no-permission", "permission", Permissions.OWN_INVENTORY);
                             return true;
                         }
 
                         settings.setOwnInventory(true);
                     } else if (!config.isKitSelectingEnabled()) {
-                        lang.sendMessage(player, "ERROR.setting.disabled-option", "option",
-                                lang.getMessage("GENERAL.kit-selector"));
+                        lang.sendMessage(player, "ERROR.setting.disabled-option", "option", lang.getMessage("GENERAL.kit-selector"));
                         return true;
                     } else {
                         final String name = StringUtil.join(args, " ", 3, args.length);
@@ -227,13 +216,10 @@ public class DuelCommand extends BaseCommand {
                             return true;
                         }
 
-                        final String permission = String.format(Permissions.KIT, name.replace(" ",
-                                "-").toLowerCase());
+                        final String permission = String.format(Permissions.KIT, name.replace(" ", "-").toLowerCase());
 
-                        if (kit.isUsePermission() && !player.hasPermission(Permissions.KIT_ALL) &&
-                                !player.hasPermission(permission)) {
-                            lang.sendMessage(player, "ERROR.no-permission",
-                                    "permission", permission);
+                        if (kit.isUsePermission() && !player.hasPermission(Permissions.KIT_ALL) && !player.hasPermission(permission)) {
+                            lang.sendMessage(player, "ERROR.no-permission", "permission", permission);
                             return true;
                         }
 
@@ -252,8 +238,7 @@ public class DuelCommand extends BaseCommand {
             // If own inventory is enabled, prompt request settings GUI.
             settings.openGui(player);
         } else {
-            // Maintain old behavior: If own inventory is disabled,
-            // prompt kit selector first instead of request settings GUI.
+            // Maintain old behavior: If own inventory is disabled, prompt kit selector first instead of request settings GUI.
             kitManager.getGui().open(player);
         }
 
@@ -261,12 +246,12 @@ public class DuelCommand extends BaseCommand {
     }
 
     @Override
-    protected void execute(final CommandSender sender, final String label, final String[] args) {}
+    protected void execute(final CommandSender sender, final String label, final String[] args) {
+    }
 
     // Disables default TabCompleter
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command command,
-                                      final String alias, final String[] args) {
+    public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
         return null;
     }
 }

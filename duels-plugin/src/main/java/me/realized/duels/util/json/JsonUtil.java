@@ -34,6 +34,9 @@ public final class JsonUtil {
         OBJECT_WRITER = OBJECT_MAPPER.writer(buildDefaultPrettyPrinter());
     }
 
+    private JsonUtil() {
+    }
+
     public static ObjectMapper getObjectMapper() {
         return OBJECT_MAPPER;
     }
@@ -42,8 +45,7 @@ public final class JsonUtil {
         return OBJECT_WRITER;
     }
 
-    public static <T> void registerDeserializer(final Class<T> type,
-                                                final Class<? extends DefaultBasedDeserializer<T>> deserializerClass) {
+    public static <T> void registerDeserializer(final Class<T> type, final Class<? extends DefaultBasedDeserializer<T>> deserializerClass) {
         final SimpleModule module = new SimpleModule();
         module.setDeserializerModifier(new BeanDeserializerModifier() {
 
@@ -52,8 +54,8 @@ public final class JsonUtil {
                 if (description.getBeanClass().equals(type)) {
                     try {
                         return deserializerClass.getConstructor(JsonDeserializer.class).newInstance(deserializer);
-                    } catch (InstantiationException | IllegalAccessException |
-                             InvocationTargetException | NoSuchMethodException ex) {
+                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                             NoSuchMethodException ex) {
                         ex.printStackTrace();
                         return deserializer;
                     }
@@ -86,6 +88,4 @@ public final class JsonUtil {
         printer.indentObjectsWith(DefaultIndenter.SYSTEM_LINEFEED_INSTANCE);
         return printer;
     }
-
-    private JsonUtil() {}
 }

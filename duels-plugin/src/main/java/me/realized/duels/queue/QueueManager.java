@@ -45,6 +45,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import space.arim.morepaperlib.scheduling.ScheduledTask;
 
 import java.io.*;
 import java.util.*;
@@ -72,7 +73,7 @@ public class QueueManager implements Loadable, DQueueManager, Listener {
     private PvPManagerHook pvpManager;
     private WorldGuardHook worldGuard;
     private VaultHook vault;
-    private int queueTask;
+    private ScheduledTask queueTask;
 
     @Getter
     private MultiPageGui<DuelsPlugin> gui;
@@ -100,8 +101,7 @@ public class QueueManager implements Loadable, DQueueManager, Listener {
             final int firstRating = first.getRating(kit);
             final int secondRating = second.getRating(kit);
             final int kFactor = config.getKFactor();
-            return NumberUtil.getChange(kFactor, firstRating, secondRating) != 0
-                    && NumberUtil.getChange(kFactor, secondRating, firstRating) != 0;
+            return NumberUtil.getChange(kFactor, firstRating, secondRating) != 0 && NumberUtil.getChange(kFactor, secondRating, firstRating) != 0;
         }
 
         return false;
@@ -109,23 +109,17 @@ public class QueueManager implements Loadable, DQueueManager, Listener {
 
     @Override
     public void handleLoad() throws IOException {
-        this.gui = new MultiPageGui<>(plugin,
-                lang.getMessage("GUI.queues.title"), config.getQueuesRows(), queues);
-        gui.setSpaceFiller(Items.from(config.getQueuesFillerType(),
-                config.getQueuesFillerData()));
-        gui.setPrevButton(ItemBuilder.of(Material.PAPER).name(
-                lang.getMessage("GUI.queues.buttons.previous-page.name")).build());
-        gui.setNextButton(ItemBuilder.of(Material.PAPER).name(
-                lang.getMessage("GUI.queues.buttons.next-page.name")).build());
-        gui.setEmptyIndicator(ItemBuilder.of(Material.PAPER).name(
-                lang.getMessage("GUI.queues.buttons.empty.name")).build());
+        this.gui = new MultiPageGui<>(plugin, lang.getMessage("GUI.queues.title"), config.getQueuesRows(), queues);
+        gui.setSpaceFiller(Items.from(config.getQueuesFillerType(), config.getQueuesFillerData()));
+        gui.setPrevButton(ItemBuilder.of(Material.PAPER).name(lang.getMessage("GUI.queues.buttons.previous-page.name")).build());
+        gui.setNextButton(ItemBuilder.of(Material.PAPER).name(lang.getMessage("GUI.queues.buttons.next-page.name")).build());
+        gui.setEmptyIndicator(ItemBuilder.of(Material.PAPER).name(lang.getMessage("GUI.queues.buttons.empty.name")).build());
         plugin.getGuiListener().addGui(gui);
 
         if (FileUtil.checkNonEmpty(file, true)) {
             try (final Reader reader = new InputStreamReader(new FileInputStream(file), Charsets.UTF_8)) {
-                final List<QueueData> data = JsonUtil.getObjectMapper()
-                        .readValue(reader, new TypeReference<List<QueueData>>() {
-                        });
+                final List<QueueData> data = JsonUtil.getObjectMapper().readValue(reader, new TypeReference<List<QueueData>>() {
+                });
 
                 if (data != null) {
                     data.forEach(queueData -> {
@@ -164,8 +158,7 @@ public class QueueManager implements Loadable, DQueueManager, Listener {
                         final Player other = opponent.getPlayer();
 
                         // opponent is already in a match or the rating difference is too high
-                        if (current.equals(opponent) || remove.contains(opponent) ||
-                                !canFight(queue.getKit(), userManager.get(player), userManager.get(other))) {
+                        if (current.equals(opponent) || remove.contains(opponent) || !canFight(queue.getKit(), userManager.get(player), userManager.get(other))) {
                             continue;
                         }
 
@@ -184,12 +177,9 @@ public class QueueManager implements Loadable, DQueueManager, Listener {
                         setting.getCache().put(player.getUniqueId(), current.getInfo());
                         setting.getCache().put(other.getUniqueId(), opponent.getInfo());
 
-                        final String kit = queue.getKit() != null ? queue.getKit().getName() :
-                                lang.getMessage("GENERAL.none");
-                        lang.sendMessage(player, "QUEUE.found-opponent", "name",
-                                other.getName(), "kit", kit, "bet_amount", queue.getBet());
-                        lang.sendMessage(other, "QUEUE.found-opponent", "name",
-                                player.getName(), "kit", kit, "bet_amount", queue.getBet());
+                        final String kit = queue.getKit() != null ? queue.getKit().getName() : lang.getMessage("GENERAL.none");
+                        lang.sendMessage(player, "QUEUE.found-opponent", "name", other.getName(), "kit", kit, "bet_amount", queue.getBet());
+                        lang.sendMessage(other, "QUEUE.found-opponent", "name", player.getName(), "kit", kit, "bet_amount", queue.getBet());
                         duelManager.startMatch(player, other, setting, null, queue);
                         break;
                     }
@@ -203,7 +193,7 @@ public class QueueManager implements Loadable, DQueueManager, Listener {
             if (update) {
                 gui.calculatePages();
             }
-        }, 20L, 40L).getTaskId();
+        }, 20L, 40L);
     }
 
     @Override
@@ -235,8 +225,7 @@ public class QueueManager implements Loadable, DQueueManager, Listener {
     @Nullable
     @Override
     public Queue get(@Nullable final Kit kit, final int bet) {
-        return queues.stream().filter(queue -> Objects.equals(kit, queue.getKit()) &&
-                queue.getBet() == bet).findFirst().orElse(null);
+        return queues.stream().filter(queue -> Objects.equals(kit, queue.getKit()) && queue.getBet() == bet).findFirst().orElse(null);
     }
 
     @Nullable
@@ -363,8 +352,7 @@ public class QueueManager implements Loadable, DQueueManager, Listener {
             return false;
         }
 
-        if ((combatTagPlus != null && combatTagPlus.isTagged(player)) || (pvpManager != null &&
-                pvpManager.isTagged(player))) {
+        if ((combatTagPlus != null && combatTagPlus.isTagged(player)) || (pvpManager != null && pvpManager.isTagged(player))) {
             lang.sendMessage(player, "ERROR.duel.is-tagged");
             return false;
         }
