@@ -1,21 +1,18 @@
 package me.realized.duels.data;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 import lombok.Getter;
 import me.realized.duels.DuelsPlugin;
 import me.realized.duels.arena.ArenaImpl;
+
+import java.util.*;
 
 public class ArenaData {
 
     @Getter
     private String name;
     private boolean disabled;
-    private Set<String> kits = new HashSet<>();
-    private Map<Integer, LocationData> positions = new HashMap<>();
+    private final Set<String> kits = new HashSet<>();
+    private final Map<Integer, LocationData> positions = new HashMap<>();
 
     private ArenaData() {}
 

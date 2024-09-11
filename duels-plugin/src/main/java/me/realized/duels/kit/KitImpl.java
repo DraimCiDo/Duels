@@ -1,10 +1,5 @@
 package me.realized.duels.kit;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +18,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.*;
+
 public class KitImpl extends BaseButton implements Kit {
 
     @Getter
@@ -34,7 +31,7 @@ public class KitImpl extends BaseButton implements Kit {
     @Getter
     private boolean arenaSpecific;
     @Getter
-    private Set<Characteristic> characteristics;
+    private final Set<Characteristic> characteristics;
     @Getter
     @Setter(value = AccessLevel.PACKAGE)
     private boolean removed;
@@ -152,6 +149,6 @@ public class KitImpl extends BaseButton implements Kit {
         SOUP,
         SUMO,
         UHC,
-        COMBO;
+        COMBO
     }
 }

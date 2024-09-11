@@ -1,12 +1,13 @@
 package me.realized.duels.api.spectate;
 
-import java.util.List;
 import me.realized.duels.api.arena.Arena;
 import me.realized.duels.api.event.spectate.SpectateEndEvent;
 import me.realized.duels.api.event.spectate.SpectateStartEvent;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 /**
  * Represents the SpectateManager singleton used by Duels.
@@ -81,7 +82,7 @@ public interface SpectateManager {
         IN_MATCH,
         TARGET_NOT_IN_MATCH,
         EVENT_CANCELLED,
-        SUCCESS;
+        SUCCESS
 
     }
 }

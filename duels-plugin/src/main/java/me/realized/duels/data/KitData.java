@@ -1,10 +1,5 @@
 package me.realized.duels.data;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 import me.realized.duels.DuelsPlugin;
 import me.realized.duels.kit.KitImpl;
 import me.realized.duels.kit.KitImpl.Characteristic;
@@ -13,10 +8,12 @@ import me.realized.duels.util.inventory.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.*;
+
 public class KitData {
 
-    private static transient final String SLOT_LOAD_FAILURE = "Could not load slot %s for kit %s!";
-    private static transient final String ITEM_LOAD_FAILURE = "Could not load item %s for kit %s!";
+    private static final String SLOT_LOAD_FAILURE = "Could not load slot %s for kit %s!";
+    private static final String ITEM_LOAD_FAILURE = "Could not load item %s for kit %s!";
 
     public static KitData fromKit(final KitImpl kit) {
         return new KitData(kit);
@@ -26,8 +23,8 @@ public class KitData {
     private ItemData displayed;
     private boolean usePermission;
     private boolean arenaSpecific;
-    private Set<Characteristic> characteristics = new HashSet<>();
-    private Map<String, Map<Integer, ItemData>> items = new HashMap<>();
+    private final Set<Characteristic> characteristics = new HashSet<>();
+    private final Map<String, Map<Integer, ItemData>> items = new HashMap<>();
 
     // for Gson deserializer
     private KitData() {}
