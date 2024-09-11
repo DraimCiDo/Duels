@@ -111,7 +111,7 @@ public class DuelsPlugin extends JavaPlugin implements Duels, LogSource {
     private volatile String newVersion;
 
     public static String getPrefix() {
-        return ChatColor.translateAlternateColorCodes('&', "&7[&aDuels&bOptimised&7] &f");
+        return ChatColor.translateAlternateColorCodes('&', "&7[&bEclipse&aDuels&7] &f");
     }
 
     @Override
